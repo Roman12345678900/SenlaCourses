@@ -1,7 +1,7 @@
 create table schedules (
     id bigserial primary key not null,
-    status varchar not null,
-    type varchar not null,
+    status varchar(40) not null,
+    type varchar(20) not null,
     start_time timestamp not null,
     end_time timestamp not null,
     schedule_id bigint not null,

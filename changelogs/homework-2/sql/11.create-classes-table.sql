@@ -1,6 +1,6 @@
 create table classes (
     id bigserial primary key not null,
-    name varchar not null,
+    name varchar(50) not null,
     description varchar(500) not null,
     user_id bigint not null,
     foreign key (user_id) references users(id)
