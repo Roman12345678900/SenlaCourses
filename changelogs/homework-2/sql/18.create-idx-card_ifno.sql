@@ -1,1 +1,0 @@
-CREATE INDEX idx_card_info_user_id ON card_info(user_id);

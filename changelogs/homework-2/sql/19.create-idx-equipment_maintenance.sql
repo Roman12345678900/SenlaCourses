@@ -1,1 +1,0 @@
-CREATE INDEX idx_equipment_maintenance_equipment_id ON equipment_maintenance(equipment_id);
