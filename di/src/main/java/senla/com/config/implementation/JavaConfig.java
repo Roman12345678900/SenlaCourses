@@ -3,6 +3,7 @@ package senla.com.config.implementation;
 import senla.com.config.Config;
 import lombok.Getter;
 import org.reflections.Reflections;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -18,7 +19,7 @@ public class JavaConfig implements Config {
 
     @Override
     public <T> Class<? extends T> getImplClass(Class ifc) {
-        if(ifc.isInterface()) {
+        if (ifc.isInterface()) {
             return ifc2ImplClass.computeIfAbsent(ifc, aClass -> {
                 Set<Class<? extends T>> classes = scanner.getSubTypesOf(ifc);
                 if (classes.size() != 1) {

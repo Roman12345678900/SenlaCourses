@@ -17,7 +17,7 @@ public class ObjectFactory {
 
     @SneakyThrows
     public ObjectFactory(ApplicationContext context) {
-        this.context= context;
+        this.context = context;
         for (Class<? extends ObjectConfigurer> aClass : context.getConfig().getScanner().getSubTypesOf(ObjectConfigurer.class)) {
             configurators.add(aClass.getDeclaredConstructor().newInstance());
         }
@@ -32,12 +32,12 @@ public class ObjectFactory {
     }
 
     private <T> void configure(T t) {
-        configurators.forEach(objectConfigurator -> objectConfigurator.configure(t,context));
+        configurators.forEach(objectConfigurator -> objectConfigurator.configure(t, context));
     }
 
     @SneakyThrows
     private <T> T create(Class<T> implClass) {
-        if(implClass.getDeclaredConstructors().length == 1 && Arrays.stream(implClass.getDeclaredConstructors()).iterator().next().getParameterTypes().length == 0)
+        if (implClass.getDeclaredConstructors().length == 1 && Arrays.stream(implClass.getDeclaredConstructors()).iterator().next().getParameterTypes().length == 0)
             return implClass.getDeclaredConstructor().newInstance();
 
         Constructor<?> constructor = Arrays.stream(implClass.getDeclaredConstructors()).iterator().next();
