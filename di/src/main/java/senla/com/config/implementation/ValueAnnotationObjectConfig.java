@@ -12,11 +12,11 @@ import java.util.Properties;
 public class ValueAnnotationObjectConfig implements ObjectConfigurer {
     private Properties appProps;
 
-    private static final String app_properties = "application.properties";
+    private static final String appProperties = "application.properties";
 
     @Override
     @SneakyThrows
-    public void configure(Object t, ApplicationContext context) {
+    public void configurer(Object t, ApplicationContext context) {
         if (appProps == null) {
             loadAppProperties(context);
         }
@@ -36,7 +36,7 @@ public class ValueAnnotationObjectConfig implements ObjectConfigurer {
     @SneakyThrows
     private void loadAppProperties(ApplicationContext context) {
         String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-        String appConfigPath = rootPath + app_properties;
+        String appConfigPath = rootPath + appProperties;
         appProps = new Properties();
         appProps.load(new FileInputStream(appConfigPath));
     }

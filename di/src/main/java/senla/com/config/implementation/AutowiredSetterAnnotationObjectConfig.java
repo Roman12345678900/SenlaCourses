@@ -11,7 +11,7 @@ public class AutowiredSetterAnnotationObjectConfig implements ObjectConfigurer {
 
     @Override
     @SneakyThrows
-    public void configure(Object t, ApplicationContext context) {
+    public void configurer(Object t, ApplicationContext context) {
         Method[] methods = t.getClass().getDeclaredMethods();
 
         for (Method method : methods) {

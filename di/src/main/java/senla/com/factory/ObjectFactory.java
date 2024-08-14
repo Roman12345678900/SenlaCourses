@@ -32,7 +32,7 @@ public class ObjectFactory {
     }
 
     private <T> void configure(T t) {
-        configurators.forEach(objectConfigurator -> objectConfigurator.configure(t, context));
+        configurators.forEach(objectConfigurator -> objectConfigurator.configurer(t, context));
     }
 
     @SneakyThrows

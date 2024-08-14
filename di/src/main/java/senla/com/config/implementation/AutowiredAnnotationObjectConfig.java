@@ -10,7 +10,7 @@ import java.lang.reflect.Constructor;
 public class AutowiredAnnotationObjectConfig implements ObjectConfigurer {
     @Override
     @SneakyThrows
-    public void configure(Object t, ApplicationContext context) {
+    public void configurer(Object t, ApplicationContext context) {
         Constructor<?>[] constructors = t.getClass().getDeclaredConstructors();
 
         for (Constructor<?> constructor : constructors) {
