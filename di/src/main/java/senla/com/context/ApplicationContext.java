@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ApplicationContext {
     private static ApplicationContext context;
+
     @Setter
     private ObjectFactory factory;
 
@@ -25,10 +26,9 @@ public class ApplicationContext {
     public static ApplicationContext getInstance(Config config) {
         if (context == null) {
             context = new ApplicationContext(config);
-            return context;
-        } else {
-            return context;
+            context.factory = new ObjectFactory(context);
         }
+        return context;
     }
 
     public <T> T getObject(Class<T> type) {

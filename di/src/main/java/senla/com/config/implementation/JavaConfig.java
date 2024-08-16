@@ -4,6 +4,7 @@ import senla.com.config.Config;
 import lombok.Getter;
 import org.reflections.Reflections;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,6 +16,10 @@ public class JavaConfig implements Config {
     public JavaConfig(String packageToScan, Map<Class, Class> ImplClassMap) {
         this.ImplClassMap = ImplClassMap;
         this.scanner = new Reflections(packageToScan);
+    }
+
+    public JavaConfig(String packageToScan) {
+        this(packageToScan, new HashMap<>()); // Инициализация пустой мапы внутри класса
     }
 
     @Override
