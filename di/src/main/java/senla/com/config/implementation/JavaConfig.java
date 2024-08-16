@@ -19,7 +19,7 @@ public class JavaConfig implements Config {
     }
 
     public JavaConfig(String packageToScan) {
-        this(packageToScan, new HashMap<>()); // Инициализация пустой мапы внутри класса
+        this(packageToScan, new HashMap<>());
     }
 
     @Override
