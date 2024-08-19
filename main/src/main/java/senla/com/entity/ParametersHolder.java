@@ -4,9 +4,9 @@ import lombok.Getter;
 import senla.com.annotation.Component;
 import senla.com.annotation.Value;
 
+@Getter
 @Component
 public class ParametersHolder {
-    @Getter
     @Value("parameters.holder.sometext")
     private String someText;
 }
