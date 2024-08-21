@@ -28,7 +28,6 @@ public class ObjectFactory {
     public <T> T createObject(Class<T> implClass) {
         T t = create(implClass);
         configure(t);
-        invokeInit(implClass, t);
         return t;
     }
 
@@ -49,14 +48,5 @@ public class ObjectFactory {
             parameters[i] = context.getObject(parameterTypes[i]);
         }
         return (T) constructor.newInstance(parameters);
-    }
-
-    @SneakyThrows
-    private <T> void invokeInit(Class<T> implClass, T t) {
-        for (Method method : implClass.getMethods()) {
-            if (method.isAnnotationPresent(PostConstruct.class)) {
-                method.invoke(t);
-            }
-        }
     }
 }
