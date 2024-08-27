@@ -15,7 +15,7 @@ import java.util.List;
 public class ClassesServiceImpl implements ClassesService {
 
     private final ClassesRepository classesRepository;
-    private GenericMapper genericMapper;
+    private final GenericMapper genericMapper;
 
     @Override
     public ClassesDto findById(Long id) {
