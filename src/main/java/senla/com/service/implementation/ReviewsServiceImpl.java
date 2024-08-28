@@ -19,7 +19,8 @@ public class ReviewsServiceImpl implements ReviewsService {
 
     @Override
     public ReviewsDto findById(Long id) {
-        return genericMapper.convertToDto(reviewsRepository.findById(id), ReviewsDto.class);
+        Reviews reviews = reviewsRepository.findById(id);
+        return genericMapper.convertToDto(reviews, ReviewsDto.class);
     }
 
     @Override

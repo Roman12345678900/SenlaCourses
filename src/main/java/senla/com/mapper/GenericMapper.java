@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class GenericMapper {
+public class GenericMapper{
 
     private final ModelMapper modelMapper;
 

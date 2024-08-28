@@ -19,12 +19,14 @@ public class CardInfoServiceImpl implements CardInfoService {
 
     @Override
     public CardInfoDto findById(Long id) {
-        return genericMapper.convertToDto(cardInfoRepository.findById(id), CardInfoDto.class);
+        CardInfo cardInfo = cardInfoRepository.findById(id);
+        return genericMapper.convertToDto(cardInfo,CardInfoDto.class);
     }
 
     @Override
     public List<CardInfoDto> findAll() {
-        return cardInfoRepository.findAll().stream()
+        return cardInfoRepository.findAll()
+                .stream()
                 .map(cardInfo -> genericMapper.convertToDto(cardInfo, CardInfoDto.class))
                 .toList();
     }

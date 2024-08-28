@@ -19,7 +19,8 @@ public class TrainerSchedulesServiceImpl implements TrainerSchedulesService {
 
     @Override
     public TrainerSchedulesDto findById(Long id) {
-        return genericMapper.convertToDto(trainerSchedulesRepository.findById(id), TrainerSchedulesDto.class);
+        TrainerSchedules trainerSchedules = trainerSchedulesRepository.findById(id);
+        return genericMapper.convertToDto(trainerSchedules, TrainerSchedulesDto.class);
     }
 
     @Override

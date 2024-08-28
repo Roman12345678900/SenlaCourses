@@ -2,7 +2,6 @@ package senla.com;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import senla.com.controller.CardInfoController;
 import senla.com.controller.ClassesController;
 import senla.com.controller.UserController;
 

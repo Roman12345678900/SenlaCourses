@@ -19,7 +19,8 @@ public class PaymentsServiceImpl implements PaymentsService {
 
     @Override
     public PaymentsDto findById(Long id) {
-        return genericMapper.convertToDto(paymentsRepository.findById(id), PaymentsDto.class);
+        Payments payments = paymentsRepository.findById(id);
+        return genericMapper.convertToDto(payments, PaymentsDto.class);
     }
 
     @Override

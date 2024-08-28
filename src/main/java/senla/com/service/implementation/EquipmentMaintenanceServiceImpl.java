@@ -19,7 +19,8 @@ public class EquipmentMaintenanceServiceImpl implements EquipmentMaintenanceServ
 
     @Override
     public EquipmentMaintenanceDto findById(Long id) {
-        return genericMapper.convertToDto(equipmentMaintenanceRepository.findById(id), EquipmentMaintenanceDto.class);
+        EquipmentMaintenance equipmentMaintenance = equipmentMaintenanceRepository.findById(id);
+        return genericMapper.convertToDto(equipmentMaintenance, EquipmentMaintenanceDto.class);
     }
 
     @Override

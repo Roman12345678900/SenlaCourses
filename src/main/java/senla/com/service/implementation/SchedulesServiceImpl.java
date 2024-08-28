@@ -19,7 +19,8 @@ public class SchedulesServiceImpl implements SchedulesService {
 
     @Override
     public SchedulesDto findById(Long id) {
-        return genericMapper.convertToDto(schedulesRepository.findById(id), SchedulesDto.class);
+        Schedules schedules = schedulesRepository.findById(id);
+        return genericMapper.convertToDto(schedules, SchedulesDto.class);
     }
 
     @Override

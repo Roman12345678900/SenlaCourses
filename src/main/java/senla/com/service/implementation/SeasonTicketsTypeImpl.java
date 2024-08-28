@@ -19,7 +19,8 @@ public class SeasonTicketsTypeImpl implements SeasonTicketsTypeService {
 
     @Override
     public SeasonTicketsTypeDto findById(Long id) {
-        return genericMapper.convertToDto(seasonTicketsTypeRepository.findById(id), SeasonTicketsTypeDto.class);
+        SeasonTicketsType seasonTicketsType = seasonTicketsTypeRepository.findById(id);
+        return genericMapper.convertToDto(seasonTicketsType, SeasonTicketsTypeDto.class);
     }
 
     @Override

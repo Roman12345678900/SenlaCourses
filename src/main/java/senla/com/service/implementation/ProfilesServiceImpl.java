@@ -19,7 +19,8 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public ProfilesDto findById(Long id) {
-        return genericMapper.convertToDto(profilesRepository.findById(id),ProfilesDto.class);
+        Profiles profiles = profilesRepository.findById(id);
+        return genericMapper.convertToDto(profiles,ProfilesDto.class);
     }
 
     @Override

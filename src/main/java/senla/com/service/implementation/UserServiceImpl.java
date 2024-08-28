@@ -19,7 +19,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findById(Long id) {
-        return genericMapper.convertToDto(userRepository.findById(id), UserDto.class);
+        User user = userRepository.findById(id);
+        return genericMapper.convertToDto(user, UserDto.class);
     }
 
     @Override

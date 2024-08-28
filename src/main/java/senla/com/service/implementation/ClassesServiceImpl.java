@@ -19,7 +19,8 @@ public class ClassesServiceImpl implements ClassesService {
 
     @Override
     public ClassesDto findById(Long id) {
-        return genericMapper.convertToDto(classesRepository.findById(id), ClassesDto.class);
+        Classes classes = classesRepository.findById(id);
+        return genericMapper.convertToDto(classes, ClassesDto.class);
     }
 
     @Override

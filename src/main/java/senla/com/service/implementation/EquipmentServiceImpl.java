@@ -19,7 +19,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     @Override
     public EquipmentDto findById(Long id) {
-        return genericMapper.convertToDto(equipmentRepository.findById(id), EquipmentDto.class);
+        Equipment equipment = equipmentRepository.findById(id);
+        return genericMapper.convertToDto(equipment, EquipmentDto.class);
     }
 
     @Override
