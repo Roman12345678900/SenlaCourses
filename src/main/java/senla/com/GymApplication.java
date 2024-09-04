@@ -2,35 +2,47 @@ package senla.com;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import senla.com.controller.ClassesController;
 import senla.com.controller.UserController;
 
 
 public class GymApplication {
     public static void main(String[] args) {
-        ApplicationContext applicationContext = new AnnotationConfigApplicationContext("Senla.com");
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext("senla.com");
         UserController userController = applicationContext.getBean(UserController.class);
-        ClassesController classesController = applicationContext.getBean(ClassesController.class);
 
-        userController.save("""
-                {
-                    "firstName":"jojo",
-                    "lastName":"smith",
-                    "email":"jojo@smith.com"
-                }
-                """);
+        Runnable task1 = () -> {
+            try {
+                userController.update(14L,"""
+                        {
+                            "firstName":"jojo",
+                            "lastName":"smith",
+                            "email":"jojo@smith.com"
+                        }
+                        """);
+                System.out.println(userController.findAll());
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        };
+        Runnable task2 = () -> {
+            try {
+                userController.update(2L,"""
+                        {
+                            "firstName":"jojo15",
+                            "lastName":"smith",
+                            "email":"jojo@smith.com"
+                        }
+                        """);
+                System.out.println(userController.findAll());
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        };
 
-        classesController.save("""
-                {
-                    "name":"qwe"
-                }
-                """);
+        Thread thread1 = new Thread(task1);
+        Thread thread2 = new Thread(task2);
 
-
-        System.out.println("All users" + userController.findAll());
-        System.out.println("CardInfo with id" + classesController.findById(1L));
-
-        userController.deleteById(1L);
-        classesController.deleteById(1L);
+        thread1.start();
+        thread2.start();
     }
 }
