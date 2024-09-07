@@ -22,6 +22,7 @@
         <modelmapper.version>3.1.0</modelmapper.version>
         <objectmapper.version>2.16.0</objectmapper.version>
         <validation.version>1.1.0.Final</validation.version>
+        <liquibase.version>4.25.0</liquibase.version>
     </properties>
     <dependencies>
         <dependency>
@@ -88,7 +89,7 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-            <version>4.25.0</version>
+            <version>${liquibase.version}</version>
         </dependency>
     </dependencies>
 </project>
