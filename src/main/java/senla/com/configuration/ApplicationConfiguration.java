@@ -24,7 +24,7 @@ import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 @PropertySource("classpath:/application.properties")
 public class ApplicationConfiguration {
 
-    @Value("{spring.datasource.url}")
+    @Value("${spring.datasource.url}")
     private String url;
 
     @Value("${spring.datasource.username}")
@@ -36,7 +36,7 @@ public class ApplicationConfiguration {
     @Value("${spring.datasource.driver-class-name}")
     private String driverClassName;
 
-    @Value("{spring.liquibase.change-log}")
+    @Value("${spring.liquibase.change-log}")
     private String changeLog;
 
     @Bean
@@ -70,7 +70,7 @@ public class ApplicationConfiguration {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(driverClassName);
-        dataSource.setUrl("jdbc:postgresql://localhost:5438/postgres");
+        dataSource.setUrl(url);
         dataSource.setUsername(username);
         dataSource.setPassword(password);
         return dataSource;
@@ -80,7 +80,7 @@ public class ApplicationConfiguration {
     public SpringLiquibase liquibase(DataSource dataSource) {
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setDataSource(dataSource);
-        liquibase.setChangeLog("changelog-master.xml");
+        liquibase.setChangeLog(changeLog);
         return liquibase;
     }
 }
