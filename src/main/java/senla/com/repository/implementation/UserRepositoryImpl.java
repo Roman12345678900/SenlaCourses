@@ -3,7 +3,6 @@ package senla.com.repository.implementation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import senla.com.connectJdbc.ConnectionHolder;
-import senla.com.dto.UserDto;
 import senla.com.entity.User;
 import senla.com.repository.UserRepository;
 
@@ -17,19 +16,25 @@ public class UserRepositoryImpl implements UserRepository {
 
     private final ConnectionHolder connectionHolder;
 
+    private static final String SQL_FIND_BY_ID = "SELECT * FROM users WHERE id = ?";
+    private static final String SQL_FIND_ALL = "SELECT * FROM users";
+    private static final String SQL_INSERT_USER = "INSERT INTO users (id, first_name, last_name, email) VALUES (?, ?, ?, ?)";
+    private static final String SQL_DELETE_BY_ID = "DELETE FROM users WHERE id = ?";
+
     @Override
     public User findById(Long id) {
         User user = null;
         try (Connection connection = connectionHolder.getConnection()) {
-            String sql = "SELECT * FROM users WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID);
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 user = mapUser(resultSet);
+            }else {
+                throw new RuntimeException("User with id" + id + "not found");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error finding user by id" + id, e);
         }
         return user;
     }
@@ -38,14 +43,13 @@ public class UserRepositoryImpl implements UserRepository {
     public List<User> findAll() {
         List<User> userList = new ArrayList<>();
         try (Connection connection = connectionHolder.getConnection()) {
-            String sql = "SELECT *FROM users";
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+            ResultSet resultSet = statement.executeQuery(SQL_FIND_ALL);
             while (resultSet.next()) {
                 userList.add(mapUser(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error finding all users", e);
         }
         return userList;
     }
@@ -53,8 +57,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void save(User user) {
         try (Connection connection = connectionHolder.getConnection()) {
-            String sql = "INSERT INTO users (id, first_name, last_name, email) VALUES (?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            PreparedStatement statement = connection.prepareStatement(SQL_INSERT_USER);
 
             statement.setLong(1, user.getId());
             statement.setString(2, user.getFirstName());
@@ -63,19 +66,18 @@ public class UserRepositoryImpl implements UserRepository {
 
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error saving user", e);
         }
     }
 
     @Override
     public void deleteById(Long id) {
         try (Connection connection = connectionHolder.getConnection()) {
-            String sql = "DELETE FROM users WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            PreparedStatement statement = connection.prepareStatement(SQL_DELETE_BY_ID);
             statement.setLong(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error deleting user with id" + id, e);
         }
     }
 

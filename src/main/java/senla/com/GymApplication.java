@@ -1,10 +1,12 @@
 package senla.com;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import senla.com.controller.UserController;
 
 
+@Slf4j
 public class GymApplication {
     public static void main(String[] args) {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext("senla.com");
@@ -19,11 +21,12 @@ public class GymApplication {
                             "email":"jojo@smith.com"
                         }
                         """);
-                System.out.println(userController.findAll());
+                log.info(userController.findAll());
             }catch (Exception e) {
-                e.printStackTrace();
+                log.error("Error in task 1", e);
             }
         };
+
         Runnable task2 = () -> {
             try {
                 userController.update(2L,"""
@@ -33,9 +36,9 @@ public class GymApplication {
                             "email":"jojo@smith.com"
                         }
                         """);
-                System.out.println(userController.findAll());
+                log.info(userController.findAll());
             }catch (Exception e) {
-                e.printStackTrace();
+                log.error("Error in task 2", e);
             }
         };
 
