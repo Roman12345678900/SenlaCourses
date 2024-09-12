@@ -25,6 +25,10 @@ public class UserController {
         userService.save(jsonMapper.deserialize(userDto, UserDto.class));
     }
 
+    public void update(Long id,String userDto){
+        userService.update(id, jsonMapper.deserialize(userDto, UserDto.class));
+    }
+
     public void deleteById(Long id) {
         userService.deleteById(id);
     }
