@@ -5,11 +5,10 @@ import senla.com.entity.CardInfo;
 import java.util.List;
 
 public interface CardInfoRepository {
-    CardInfo findById(Long id);
 
-    List<CardInfo> findAll();
+    List<CardInfo> findAllWithUserCriteria();
 
-    void save(CardInfo cardInfo);
+    List<CardInfo> findAllWithUserJPQL();
 
-    void deleteById(Long id);
+    List<CardInfo> findAllWithUserEntityGraph();
 }

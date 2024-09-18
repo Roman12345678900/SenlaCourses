@@ -5,11 +5,10 @@ import senla.com.entity.Profiles;
 import java.util.List;
 
 public interface ProfilesRepository {
-    Profiles findById(Long id);
 
-    List<Profiles> findAll();
+    List<Profiles> findWithJpql();
 
-    void save(Profiles profiles);
+    List<Profiles> findWithCriteriaApi();
 
-    void deleteById(Long id);
+    List<Profiles> findWithEntityGraph();
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import senla.com.dto.SchedulesDto;
 import senla.com.entity.Schedules;
 import senla.com.mapper.GenericMapper;
+import senla.com.repository.GenericRepository;
 import senla.com.repository.SchedulesRepository;
 import senla.com.service.SchedulesService;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SchedulesServiceImpl implements SchedulesService {
 
-    private final SchedulesRepository schedulesRepository;
+    private final GenericRepository<Schedules, Long> schedulesRepository;
     private final GenericMapper genericMapper;
 
     @Override

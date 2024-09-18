@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import senla.com.dto.RoleDto;
 import senla.com.entity.Role;
 import senla.com.mapper.GenericMapper;
+import senla.com.repository.GenericRepository;
 import senla.com.repository.RoleRepository;
 import senla.com.service.RoleService;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService {
 
-    private final RoleRepository roleRepository;
+    private final GenericRepository<Role, Long> roleRepository;
     private final GenericMapper genericMapper;
 
     @Override

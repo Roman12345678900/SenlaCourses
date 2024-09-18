@@ -1,67 +1,46 @@
 package senla.com.repository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
 @Repository
-public class AbstractRepository<T> {
-    private final List<T> objects = new ArrayList<>();
-    private long idCounter = 1;
+@RequiredArgsConstructor
+public abstract class AbstractRepository<T, PK extends Serializable> implements GenericRepository<T, PK> {
 
-    public T findById(Long id) {
-        return objects.stream()
-                .filter(obj -> {
-                    try {
-                        return id.equals(getId(obj));
-                    } catch (Exception e) {
-                        throw new RuntimeException("Error getting ID from object", e);
-                    }
-                })
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Object with id " + id + " not found"));
+    @PersistenceContext
+    protected EntityManager entityManager;
+
+    public abstract Class<T> getEntityclass();
+
+    @Override
+    public T findById(PK id) {
+        return entityManager.find(getEntityclass(),id);
     }
 
+    @Override
+    public void save(T entity) {
+        entityManager.merge(entity);
+    }
+
+    @Override
     public List<T> findAll() {
-        return new ArrayList<>(objects);
+        TypedQuery<T> query = entityManager.createQuery("select e from " + getEntityclass().getName() + " e", getEntityclass());
+
+        return query.getResultList();
     }
 
-    public void save(T object) {
-        try {
-            Long id = getId(object);
-            if (id == null || !objects.contains(object)) {
-                if (id == null) {
-                    setId(object, idCounter++);
-                }
-                objects.add(object);
-            } else {
-                int index = objects.indexOf(object);
-                objects.set(index, object);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Error setting ID for object", e);
+    @Override
+    public void deleteById(PK id) {
+        T entity = findById(id);
+
+        if (entity != null) {
+            entityManager.remove(entity);
         }
-    }
-
-    public void deleteById(Long id) {
-        objects.removeIf(obj -> {
-            try {
-                return id.equals(getId(obj));
-            } catch (Exception e) {
-                throw new RuntimeException("Error getting ID from object", e);
-            }
-        });
-    }
-
-    private Long getId(T object) throws Exception {
-        Method getIdMethod = object.getClass().getMethod("getId");
-        return (Long) getIdMethod.invoke(object);
-    }
-
-    private void setId(T object, Long id) throws Exception {
-        Method setIdMethod = object.getClass().getMethod("setId", Long.class);
-        setIdMethod.invoke(object, id);
     }
 }

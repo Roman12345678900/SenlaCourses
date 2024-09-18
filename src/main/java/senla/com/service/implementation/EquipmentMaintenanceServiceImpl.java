@@ -6,6 +6,7 @@ import senla.com.dto.EquipmentMaintenanceDto;
 import senla.com.entity.EquipmentMaintenance;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.EquipmentMaintenanceRepository;
+import senla.com.repository.GenericRepository;
 import senla.com.service.EquipmentMaintenanceService;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EquipmentMaintenanceServiceImpl implements EquipmentMaintenanceService {
 
-    private final EquipmentMaintenanceRepository equipmentMaintenanceRepository;
+    private final GenericRepository<EquipmentMaintenance, Long> equipmentMaintenanceRepository;
     private final GenericMapper genericMapper;
 
     @Override

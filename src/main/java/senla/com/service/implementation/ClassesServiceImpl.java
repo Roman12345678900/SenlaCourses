@@ -6,6 +6,7 @@ import senla.com.dto.ClassesDto;
 import senla.com.entity.Classes;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.ClassesRepository;
+import senla.com.repository.GenericRepository;
 import senla.com.service.ClassesService;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClassesServiceImpl implements ClassesService {
 
-    private final ClassesRepository classesRepository;
+    private final GenericRepository<Classes, Long> classesRepository;
     private final GenericMapper genericMapper;
 
     @Override
