@@ -1,6 +1,10 @@
 package senla.com.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import senla.com.entity.Schedules;
 
 import javax.validation.constraints.NotNull;

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface SeasonTicketsTypeRepository {
 
-    List<SeasonTicketsType> findAllWithCriteria();
+    List<SeasonTicketsType> findByNameWithCriteria(String name);
 
     List<SeasonTicketsType> findAllWithJpql();
 

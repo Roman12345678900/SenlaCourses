@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface EquipmentRepository {
 
-    List<Equipment> findAllWithFetchCriteria();
+    List<Equipment> findByStatusWithFetchCriteria(String status);
 
     List<Equipment> findAllWithFetchJPQL();
 

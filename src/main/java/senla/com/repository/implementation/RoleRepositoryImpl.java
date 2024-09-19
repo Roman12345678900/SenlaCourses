@@ -6,6 +6,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 import senla.com.entity.Role;
+import senla.com.entity.Role_;
 import senla.com.repository.AbstractRepository;
 import senla.com.repository.RoleRepository;
 
@@ -20,15 +21,16 @@ public class RoleRepositoryImpl extends AbstractRepository<Role, Long> implement
     }
 
     @Override
-    public List<Role> findAllWithFetchCriteria() {
+    public List<Role> findByNameWithFetchCriteria(String name) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Role> query = criteriaBuilder.createQuery(Role.class);
         Root<Role> root = query.from(Role.class);
 
-        query.select(root);
+        query.select(root).where(criteriaBuilder.equal(root.get(Role_.name), name));
 
         return entityManager.createQuery(query).getResultList();
     }
+
 
     @Override
     public List<Role> findAllWithFetchJPQL() {

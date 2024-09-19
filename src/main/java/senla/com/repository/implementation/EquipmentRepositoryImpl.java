@@ -7,6 +7,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 import senla.com.entity.Equipment;
+import senla.com.entity.Equipment_;
 import senla.com.repository.AbstractRepository;
 import senla.com.repository.EquipmentRepository;
 
@@ -21,11 +22,11 @@ public class EquipmentRepositoryImpl extends AbstractRepository<Equipment, Long>
     }
 
     @Override
-    public List<Equipment> findAllWithFetchCriteria() {
+    public List<Equipment> findByStatusWithFetchCriteria(String status) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Equipment> cq = cb.createQuery(Equipment.class);
         Root<Equipment> equipmentRoot = cq.from(Equipment.class);
-        cq.select(equipmentRoot);
+        cq.select(equipmentRoot).where(cb.equal(equipmentRoot.get(Equipment_.status), status));
 
         return entityManager.createQuery(cq).getResultList();
     }

@@ -7,6 +7,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 import senla.com.entity.SeasonTicketsType;
+import senla.com.entity.SeasonTicketsType_;
 import senla.com.repository.AbstractRepository;
 import senla.com.repository.SeasonTicketsTypeRepository;
 
@@ -21,11 +22,11 @@ public class SeasonTicketsTypeRepositoryImpl extends AbstractRepository<SeasonTi
     }
 
     @Override
-    public List<SeasonTicketsType> findAllWithCriteria() {
+    public List<SeasonTicketsType> findByNameWithCriteria(String name) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<SeasonTicketsType> criteriaQuery = criteriaBuilder.createQuery(SeasonTicketsType.class);
         Root<SeasonTicketsType> root = criteriaQuery.from(SeasonTicketsType.class);
-        criteriaQuery.select(root);
+        criteriaQuery.select(root).where(criteriaBuilder.equal(root.get(SeasonTicketsType_.name), name));
 
         return entityManager.createQuery(criteriaQuery).getResultList();
     }

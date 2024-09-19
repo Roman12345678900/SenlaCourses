@@ -28,8 +28,8 @@ import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
 @Slf4j
 @Configuration
-@EnableTransactionManagement
 @ComponentScan("senla.com")
+@EnableTransactionManagement
 @PropertySource("classpath:/application.properties")
 public class ApplicationConfiguration {
 
@@ -53,6 +53,10 @@ public class ApplicationConfiguration {
 
     @Value("${hibernate.hbm2ddl.auto}")
     private String hbm2ddlAuto;
+
+    public static final String hibernateDialect = "hibernate.dialect";
+
+    public static final String hibernateHbm2ddlAuto = "hibernate.hbm2ddl.auto";
 
     @Bean
     public ObjectMapper objectMapper() {
@@ -118,8 +122,8 @@ public class ApplicationConfiguration {
 
     private Properties hibernateProperties(){
         Properties properties = new Properties();
-        properties.setProperty("hibernate.dialect", dialect);
-        properties.setProperty("hibernate.hbm2ddl.auto", hbm2ddlAuto);
+        properties.setProperty(hibernateDialect, dialect);
+        properties.setProperty(hibernateHbm2ddlAuto, hbm2ddlAuto);
         return properties;
     }
 }

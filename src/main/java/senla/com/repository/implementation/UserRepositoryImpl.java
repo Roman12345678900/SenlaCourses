@@ -8,6 +8,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 import senla.com.entity.User;
+import senla.com.entity.User_;
 import senla.com.repository.AbstractRepository;
 import senla.com.repository.UserRepository;
 
@@ -41,7 +42,8 @@ public class UserRepositoryImpl extends AbstractRepository<User, Long> implement
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
         Root<User> root = criteriaQuery.from(User.class);
-        criteriaQuery.select(root).where(builder.equal(root.get("firstName"), name));
+        criteriaQuery.select(root).where(builder.equal(root.get(User_.firstName), name));
+
         return entityManager.createQuery(criteriaQuery).getResultList();
     }
 
