@@ -1,21 +1,50 @@
 package senla.com.entity;
 
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 @Setter
 @Getter
+@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "schedules")
 public class Schedules {
+    @Id
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "status")
     private String status;
+
+    @Column(name = "type")
     private String type;
+
+    @Column(name = "start_time")
     private Timestamp startTime;
+
+    @Column(name = "end_time")
     private Timestamp endTime;
+
+    @OneToOne
+    @JoinColumn(name = "schedule_id")
     private Schedules schedules;
-    private List<Classes> classes;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "class_id")
+    private Classes classes;
 }

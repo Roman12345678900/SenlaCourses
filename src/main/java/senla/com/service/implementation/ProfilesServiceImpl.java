@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import senla.com.dto.ProfilesDto;
 import senla.com.entity.Profiles;
 import senla.com.mapper.GenericMapper;
+import senla.com.repository.GenericRepository;
 import senla.com.repository.ProfilesRepository;
 import senla.com.service.ProfilesService;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProfilesServiceImpl implements ProfilesService {
 
-    private final ProfilesRepository profilesRepository;
+    private final GenericRepository<Profiles, Long> profilesRepository;
     private final GenericMapper genericMapper;
 
     @Override

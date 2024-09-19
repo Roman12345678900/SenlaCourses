@@ -5,11 +5,10 @@ import senla.com.entity.TrainerSchedules;
 import java.util.List;
 
 public interface TrainerSchedulesRepository {
-    TrainerSchedules findById(Long id);
 
-    List<TrainerSchedules> findAll();
+    List<TrainerSchedules> findAllWithCriteria();
 
-    void save(TrainerSchedules trainerSchedules);
+    List<TrainerSchedules> findAllWithJpql();
 
-    void deleteById(Long id);
+    List<TrainerSchedules> findAllWithGraph();
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import senla.com.dto.ReviewsDto;
 import senla.com.entity.Reviews;
 import senla.com.mapper.GenericMapper;
+import senla.com.repository.GenericRepository;
 import senla.com.repository.ReviewsRepository;
 import senla.com.service.ReviewsService;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewsServiceImpl implements ReviewsService {
 
-    private final ReviewsRepository reviewsRepository;
+    private final GenericRepository<Reviews, Long> reviewsRepository;
     private final GenericMapper genericMapper;
 
     @Override

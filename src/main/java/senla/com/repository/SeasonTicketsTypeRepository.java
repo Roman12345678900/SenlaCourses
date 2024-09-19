@@ -5,11 +5,10 @@ import senla.com.entity.SeasonTicketsType;
 import java.util.List;
 
 public interface SeasonTicketsTypeRepository {
-    SeasonTicketsType findById(Long id);
 
-    List<SeasonTicketsType> findAll();
+    List<SeasonTicketsType> findByNameWithCriteria(String name);
 
-    void save(SeasonTicketsType seasonTicketsType);
+    List<SeasonTicketsType> findAllWithJpql();
 
-    void deleteById(Long id);
+    List<SeasonTicketsType> findAllWithGraph();
 }

@@ -6,6 +6,7 @@ import senla.com.dto.CardInfoDto;
 import senla.com.entity.CardInfo;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.CardInfoRepository;
+import senla.com.repository.GenericRepository;
 import senla.com.service.CardInfoService;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CardInfoServiceImpl implements CardInfoService {
 
-    private final CardInfoRepository cardInfoRepository;
+    private final GenericRepository<CardInfo, Long> cardInfoRepository;
     private final GenericMapper genericMapper;
 
     @Override

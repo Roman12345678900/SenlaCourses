@@ -1,15 +1,15 @@
 package senla.com.repository;
 
+
 import senla.com.entity.Schedules;
 
 import java.util.List;
 
 public interface SchedulesRepository {
-    Schedules findById(Long id);
 
-    List<Schedules> findAll();
+    List<Schedules> findAllWithFetchCriteria();
 
-    void save(Schedules schedules);
+    Schedules findByIdWithFetch(Long id);
 
-    void deleteById(Long id);
+    List<Schedules> findAllWithEntityGraph();
 }

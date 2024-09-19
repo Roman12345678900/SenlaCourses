@@ -101,6 +101,4 @@
         <sqlFile encoding="utf8" path="sql/23.create-idx-trainer_schedules.sql" relativeToChangelogFile="true"/>
     </changeSet>
 
-
-
 </databaseChangeLog> 

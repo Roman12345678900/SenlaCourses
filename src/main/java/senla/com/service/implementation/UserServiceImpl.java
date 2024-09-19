@@ -2,12 +2,14 @@ package senla.com.service.implementation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import senla.com.dto.UserDto;
 import senla.com.entity.User;
 import senla.com.mapper.GenericMapper;
+import senla.com.repository.GenericRepository;
 import senla.com.repository.UserRepository;
 import senla.com.service.UserService;
-import senla.com.transactional.Transaction;
+
 
 import java.util.List;
 
@@ -15,38 +17,38 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    private final GenericRepository<User, Long> userRepository;
     private final GenericMapper genericMapper;
 
-    @Transaction
+    @Transactional
     @Override
     public UserDto findById(Long id) {
         User user = userRepository.findById(id);
         return genericMapper.convertToDto(user, UserDto.class);
     }
 
-    @Transaction
+    @Transactional
     @Override
     public List<UserDto> findAll() {
         return userRepository.findAll().stream()
-                .map(user -> genericMapper.convertToDto(user,UserDto.class))
+                .map(user -> genericMapper.convertToDto(user, UserDto.class))
                 .toList();
     }
 
-    @Transaction
+    @Transactional
     @Override
     public void save(UserDto userDto) {
-        User user = genericMapper.convertToEntity(userDto,User.class);
+        User user = genericMapper.convertToEntity(userDto, User.class);
         userRepository.save(user);
     }
 
-    @Transaction
+    @Transactional
     @Override
     public void deleteById(Long id) {
         userRepository.deleteById(id);
     }
 
-    @Transaction
+    @Transactional
     @Override
     public boolean update(Long id, UserDto userDto) {
         User user = userRepository.findById(id);

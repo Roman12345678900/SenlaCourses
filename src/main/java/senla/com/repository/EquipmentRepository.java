@@ -5,11 +5,10 @@ import senla.com.entity.Equipment;
 import java.util.List;
 
 public interface EquipmentRepository {
-    Equipment findById(Long id);
 
-    List<Equipment> findAll();
+    List<Equipment> findByStatusWithFetchCriteria(String status);
 
-    void save(Equipment equipment);
+    List<Equipment> findAllWithFetchJPQL();
 
-    void deleteById(Long id);
+    List<Equipment> findAllWithEntityGraph();
 }

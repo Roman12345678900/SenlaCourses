@@ -6,11 +6,9 @@ import java.util.List;
 
 public interface PaymentsRepository {
 
-    Payments findById(Long id);
+    List<Payments> findAllWithJpql();
 
-    List<Payments> findAll();
+    List<Payments> findWithCriteriaApi();
 
-    void save(Payments payments);
-
-    void deleteById(Long id);
+    List<Payments> findWithEntityGraph();
 }

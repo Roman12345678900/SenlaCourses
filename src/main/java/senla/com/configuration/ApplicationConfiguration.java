@@ -3,24 +3,33 @@ package senla.com.configuration;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import jakarta.persistence.EntityManagerFactory;
 import liquibase.integration.spring.SpringLiquibase;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.Properties;
 
 import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
 @Slf4j
 @Configuration
+@ComponentScan("senla.com")
+@EnableTransactionManagement
 @PropertySource("classpath:/application.properties")
 public class ApplicationConfiguration {
 
@@ -38,6 +47,16 @@ public class ApplicationConfiguration {
 
     @Value("${spring.liquibase.change-log}")
     private String changeLog;
+
+    @Value("${spring.jpa.properties.hibernate.dialect}")
+    private String dialect;
+
+    @Value("${hibernate.hbm2ddl.auto}")
+    private String hbm2ddlAuto;
+
+    public static final String hibernateDialect = "hibernate.dialect";
+
+    public static final String hibernateHbm2ddlAuto = "hibernate.hbm2ddl.auto";
 
     @Bean
     public ObjectMapper objectMapper() {
@@ -82,5 +101,29 @@ public class ApplicationConfiguration {
         liquibase.setDataSource(dataSource);
         liquibase.setChangeLog(changeLog);
         return liquibase;
+    }
+
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManager(DataSource dataSource) {
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource(dataSource);
+        em.setPackagesToScan("senla");
+        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        em.setJpaProperties(hibernateProperties());
+        return em;
+    }
+
+    @Bean
+    public JpaTransactionManager transactionManager(EntityManagerFactory emf) {
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(emf);
+        return transactionManager;
+    }
+
+    private Properties hibernateProperties(){
+        Properties properties = new Properties();
+        properties.setProperty(hibernateDialect, dialect);
+        properties.setProperty(hibernateHbm2ddlAuto, hbm2ddlAuto);
+        return properties;
     }
 }

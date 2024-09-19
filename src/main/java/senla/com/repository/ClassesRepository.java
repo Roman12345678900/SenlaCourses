@@ -6,11 +6,10 @@ import java.util.List;
 
 public interface ClassesRepository {
 
-    Classes findById(Long id);
 
-    List<Classes> findAll();
+    List<Classes> findAllWithUserCriteria();
 
-    void save(Classes classes);
+    List<Classes> findAllWithUserJPQL();
 
-    void deleteById(Long id);
+    List<Classes> findAllWithUserEntityGraph();
 }

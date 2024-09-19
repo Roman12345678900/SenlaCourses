@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import senla.com.dto.PaymentsDto;
 import senla.com.entity.Payments;
 import senla.com.mapper.GenericMapper;
+import senla.com.repository.GenericRepository;
 import senla.com.repository.PaymentsRepository;
 import senla.com.service.PaymentsService;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PaymentsServiceImpl implements PaymentsService {
 
-    private final PaymentsRepository paymentsRepository;
+    private final GenericRepository<Payments, Long> paymentsRepository;
     private final GenericMapper genericMapper;
 
     @Override

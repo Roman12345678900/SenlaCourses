@@ -5,12 +5,12 @@ import senla.com.entity.Reviews;
 import java.util.List;
 
 public interface ReviewsRepository {
-    Reviews findById(Long id);
 
-    List<Reviews> findAll();
+    List<Reviews> findWithJpql();
 
-    void save(Reviews reviews);
+    List<Reviews> findAllWithFetch();
 
-    void deleteById(Long id);
+    List<Reviews> findAllWithEntityGraph();
 
+    Reviews findByIdWithAssociationsNamedEntityGraph(Long id);
 }

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import senla.com.dto.SeasonTicketsDto;
 import senla.com.entity.SeasonTickets;
 import senla.com.mapper.GenericMapper;
-import senla.com.repository.SeasonTicketsRepository;
+import senla.com.repository.GenericRepository;
 import senla.com.service.SeasonTicketsService;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SeasonTicketsServiceImpl implements SeasonTicketsService {
 
-    private final SeasonTicketsRepository seasonTicketsRepository;
+    private final GenericRepository<SeasonTickets, Long> seasonTicketsRepository;
     private final GenericMapper genericMapper;
 
     @Override

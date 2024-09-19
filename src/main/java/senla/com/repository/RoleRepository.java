@@ -5,11 +5,10 @@ import senla.com.entity.Role;
 import java.util.List;
 
 public interface RoleRepository {
-    Role findById(Long id);
 
-    List<Role> findAll();
+    List<Role> findByNameWithFetchCriteria(String name);
 
-    void save(Role role);
+    List<Role> findAllWithFetchJPQL();
 
-    void deleteById(Long id);
+    List<Role> findAllWithEntityGraph();
 }

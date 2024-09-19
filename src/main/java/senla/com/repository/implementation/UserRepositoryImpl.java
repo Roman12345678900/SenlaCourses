@@ -1,93 +1,60 @@
 package senla.com.repository.implementation;
 
-import lombok.RequiredArgsConstructor;
+import jakarta.persistence.EntityGraph;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
-import senla.com.connectJdbc.ConnectionHolder;
 import senla.com.entity.User;
+import senla.com.entity.User_;
+import senla.com.repository.AbstractRepository;
 import senla.com.repository.UserRepository;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 
 @Repository
-@RequiredArgsConstructor
-public class UserRepositoryImpl implements UserRepository {
-
-    private final ConnectionHolder connectionHolder;
-
-    private static final String SQL_FIND_BY_ID = "SELECT * FROM users WHERE id = ?";
-    private static final String SQL_FIND_ALL = "SELECT * FROM users";
-    private static final String SQL_INSERT_USER = "INSERT INTO users (id, first_name, last_name, email) VALUES (?, ?, ?, ?)";
-    private static final String SQL_DELETE_BY_ID = "DELETE FROM users WHERE id = ?";
+public class UserRepositoryImpl extends AbstractRepository<User, Long> implements UserRepository {
 
     @Override
-    public User findById(Long id) {
-        User user = null;
-        try (Connection connection = connectionHolder.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID);
-            statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                user = mapUser(resultSet);
-            }else {
-                throw new RuntimeException("User with id" + id + "not found");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Error finding user by id" + id, e);
-        }
-        return user;
+    public Class<User> getEntityclass() {
+        return User.class;
     }
 
     @Override
-    public List<User> findAll() {
-        List<User> userList = new ArrayList<>();
-        try (Connection connection = connectionHolder.getConnection()) {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(SQL_FIND_ALL);
-            while (resultSet.next()) {
-                userList.add(mapUser(resultSet));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Error finding all users", e);
-        }
-        return userList;
-    }
-
-    @Override
-    public void save(User user) {
-        try (Connection connection = connectionHolder.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(SQL_INSERT_USER);
-
-            statement.setLong(1, user.getId());
-            statement.setString(2, user.getFirstName());
-            statement.setString(3, user.getLastName());
-            statement.setString(4, user.getEmail());
-
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Error saving user", e);
+    public Optional<User> findByEmail(String email) {
+        String jpql = "select u from User u where u.email = :email";
+        TypedQuery<User> query = entityManager.createQuery(jpql, User.class);
+        query.setParameter("email", email);
+        try {
+            User user = query.getSingleResult();
+            return Optional.of(user);
+        }catch (NoResultException e) {
+            return Optional.empty();
         }
     }
 
     @Override
-    public void deleteById(Long id) {
-        try (Connection connection = connectionHolder.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(SQL_DELETE_BY_ID);
-            statement.setLong(1, id);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Error deleting user with id" + id, e);
-        }
+    public List<User> findByNameWithApi(String name) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
+        Root<User> root = criteriaQuery.from(User.class);
+        criteriaQuery.select(root).where(builder.equal(root.get(User_.firstName), name));
+
+        return entityManager.createQuery(criteriaQuery).getResultList();
     }
 
-    private User mapUser(ResultSet resultSet) throws SQLException {
-        User user = new User();
-        user.setId(resultSet.getLong("id"));
-        user.setFirstName(resultSet.getString("first_name"));
-        user.setLastName(resultSet.getString("last_name"));
-        user.setEmail(resultSet.getString("email"));
+    @Override
+    public List<User> findAllWithRoles() {
+        EntityGraph<User> entityGraph = entityManager.createEntityGraph(User.class);
+        entityGraph.addAttributeNodes("roles");
 
-        return user;
+        TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u", User.class);
+        query.setHint("javax.persistence.loadgraph", entityGraph);
+
+        return query.getResultList();
     }
 }
