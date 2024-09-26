@@ -2,10 +2,11 @@ package senla.com.service.implementation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import senla.com.dto.ClassesDto;
 import senla.com.entity.Classes;
+import senla.com.exception.ClassesNotFoundException;
 import senla.com.mapper.GenericMapper;
-import senla.com.repository.ClassesRepository;
 import senla.com.repository.GenericRepository;
 import senla.com.service.ClassesService;
 
@@ -19,12 +20,15 @@ public class ClassesServiceImpl implements ClassesService {
     private final GenericMapper genericMapper;
 
     @Override
+    @Transactional
     public ClassesDto findById(Long id) {
-        Classes classes = classesRepository.findById(id);
+        Classes classes = classesRepository.findById(id).
+                orElseThrow(() -> new ClassesNotFoundException(id));
         return genericMapper.convertToDto(classes, ClassesDto.class);
     }
 
     @Override
+    @Transactional
     public List<ClassesDto> findAll() {
         return classesRepository.findAll().stream()
                 .map(classes -> genericMapper.convertToDto(classes,ClassesDto.class))
@@ -32,12 +36,14 @@ public class ClassesServiceImpl implements ClassesService {
     }
 
     @Override
+    @Transactional
     public void save(ClassesDto classesDto) {
         Classes classes = genericMapper.convertToEntity(classesDto, Classes.class);
         classesRepository.save(classes);
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         classesRepository.deleteById(id);
     }

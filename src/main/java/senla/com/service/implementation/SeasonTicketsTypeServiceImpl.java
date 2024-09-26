@@ -2,29 +2,33 @@ package senla.com.service.implementation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import senla.com.dto.SeasonTicketsTypeDto;
 import senla.com.entity.SeasonTicketsType;
+import senla.com.exception.SeasonTicketsTypeNotFoundException;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.GenericRepository;
-import senla.com.repository.SeasonTicketsTypeRepository;
 import senla.com.service.SeasonTicketsTypeService;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class SeasonTicketsTypeImpl implements SeasonTicketsTypeService {
+public class SeasonTicketsTypeServiceImpl implements SeasonTicketsTypeService {
 
     private final GenericRepository<SeasonTicketsType, Long> seasonTicketsTypeRepository;
     private final GenericMapper genericMapper;
 
     @Override
+    @Transactional
     public SeasonTicketsTypeDto findById(Long id) {
-        SeasonTicketsType seasonTicketsType = seasonTicketsTypeRepository.findById(id);
+        SeasonTicketsType seasonTicketsType = seasonTicketsTypeRepository.findById(id).
+                orElseThrow(() -> new SeasonTicketsTypeNotFoundException(id));
         return genericMapper.convertToDto(seasonTicketsType, SeasonTicketsTypeDto.class);
     }
 
     @Override
+    @Transactional
     public List<SeasonTicketsTypeDto> findAll() {
         return seasonTicketsTypeRepository.findAll().stream()
                 .map(seasonTicketsType -> genericMapper.convertToDto(seasonTicketsType, SeasonTicketsTypeDto.class))
@@ -32,12 +36,14 @@ public class SeasonTicketsTypeImpl implements SeasonTicketsTypeService {
     }
 
     @Override
+    @Transactional
     public void save(SeasonTicketsTypeDto seasonTicketsTypeDto) {
         SeasonTicketsType seasonTicketsType = genericMapper.convertToEntity(seasonTicketsTypeDto, SeasonTicketsType.class);
         seasonTicketsTypeRepository.save(seasonTicketsType);
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         seasonTicketsTypeRepository.deleteById(id);
     }

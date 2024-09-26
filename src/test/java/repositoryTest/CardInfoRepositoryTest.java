@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import senla.com.configuration.ApplicationConfiguration;
 import senla.com.entity.CardInfo;
@@ -15,14 +15,13 @@ import senla.com.repository.implementation.UserRepositoryImpl;
 import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(
-        classes = ApplicationConfiguration.class,
-        loader = AnnotationConfigContextLoader.class
-)
+@ContextConfiguration(classes = ApplicationConfiguration.class)
+@WebAppConfiguration
 @Transactional
 public class CardInfoRepositoryTest {
 
@@ -51,10 +50,10 @@ public class CardInfoRepositoryTest {
                 .build();
         cardInfoRepository.save(cardInfo);
 
-        CardInfo foundCardInfo = cardInfoRepository.findById(cardInfo.getCardNumber());
+        Optional<CardInfo> foundCardInfo = cardInfoRepository.findById(cardInfo.getCardNumber());
 
         assertNotNull(foundCardInfo);
-        assertEquals(cardInfo.getCardNumber(), foundCardInfo.getCardNumber());
+        assertEquals(cardInfo.getCardNumber(), foundCardInfo.get().getCardNumber());
     }
 
     @Test
@@ -123,10 +122,10 @@ public class CardInfoRepositoryTest {
 
         cardInfoRepository.save(cardInfo);
 
-        CardInfo savedCardInfo = cardInfoRepository.findById(cardInfo.getCardNumber());
+        Optional<CardInfo> savedCardInfo = cardInfoRepository.findById(cardInfo.getCardNumber());
 
         assertNotNull(savedCardInfo);
-        assertEquals(cardInfo.getCardNumber(), savedCardInfo.getCardNumber());
+        assertEquals(cardInfo.getCardNumber(), savedCardInfo.get().getCardNumber());
     }
 
     @Test
@@ -152,8 +151,9 @@ public class CardInfoRepositoryTest {
 
         cardInfoRepository.deleteById(cardInfo.getCardNumber());
 
-        CardInfo deletedCardInfo = cardInfoRepository.findById(cardInfo.getCardNumber());
+        Optional<CardInfo> deletedCardInfo = cardInfoRepository.findById(cardInfo.getCardNumber());
 
-        assertNull(deletedCardInfo);
+        assertTrue(deletedCardInfo.isEmpty());
     }
+
 }

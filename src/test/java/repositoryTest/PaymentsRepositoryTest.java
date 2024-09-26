@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import senla.com.configuration.ApplicationConfiguration;
 import senla.com.entity.Payments;
@@ -16,14 +17,13 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(
-        classes = ApplicationConfiguration.class,
-        loader = AnnotationConfigContextLoader.class
-)
+@ContextConfiguration(classes = ApplicationConfiguration.class)
+@WebAppConfiguration
 @Transactional
 public class PaymentsRepositoryTest {
 
@@ -43,12 +43,12 @@ public class PaymentsRepositoryTest {
 
         paymentsRepository.save(payment);
 
-        Payments foundPayment = paymentsRepository.findById(payment.getId());
+        Optional<Payments> foundPayment = paymentsRepository.findById(payment.getId());
 
         assertNotNull(foundPayment);
-        assertEquals(payment.getId(), foundPayment.getId());
-        assertEquals(payment.getPaymentsDate(), foundPayment.getPaymentsDate());
-        assertEquals(payment.getPrice(), foundPayment.getPrice());
+        assertEquals(payment.getId(), foundPayment.get().getId());
+        assertEquals(payment.getPaymentsDate(), foundPayment.get().getPaymentsDate());
+        assertEquals(payment.getPrice(), foundPayment.get().getPrice());
     }
 
     @Test
@@ -104,11 +104,11 @@ public class PaymentsRepositoryTest {
 
         paymentsRepository.save(payment);
 
-        Payments savedPayment = paymentsRepository.findById(payment.getId());
+        Optional<Payments> savedPayment = paymentsRepository.findById(payment.getId());
 
         assertNotNull(savedPayment);
-        assertEquals(payment.getPaymentsDate(), savedPayment.getPaymentsDate());
-        assertEquals(payment.getPrice(), savedPayment.getPrice());
+        assertEquals(payment.getPaymentsDate(), savedPayment.get().getPaymentsDate());
+        assertEquals(payment.getPrice(), savedPayment.get().getPrice());
     }
 
     @Test
@@ -123,8 +123,8 @@ public class PaymentsRepositoryTest {
 
         paymentsRepository.deleteById(payment.getId());
 
-        Payments deletedPayment = paymentsRepository.findById(payment.getId());
+        Optional<Payments> deletedPayment = paymentsRepository.findById(payment.getId());
 
-        assertNull(deletedPayment);
+        assertTrue(deletedPayment.isEmpty());
     }
 }

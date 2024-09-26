@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import senla.com.configuration.ApplicationConfiguration;
 import senla.com.entity.Equipment;
@@ -13,14 +14,13 @@ import senla.com.repository.implementation.EquipmentRepositoryImpl;
 import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(
-        classes = ApplicationConfiguration.class,
-        loader = AnnotationConfigContextLoader.class
-)
+@ContextConfiguration(classes = ApplicationConfiguration.class)
+@WebAppConfiguration
 @Transactional
 public class EquipmentRepositoryTest {
 
@@ -39,10 +39,10 @@ public class EquipmentRepositoryTest {
 
         equipmentRepository.save(equipment);
 
-        Equipment foundEquipment = equipmentRepository.findById(equipment.getId());
+        Optional<Equipment> foundEquipment = equipmentRepository.findById(equipment.getId());
 
         assertNotNull(foundEquipment);
-        assertEquals(equipment.getId(), foundEquipment.getId());
+        assertEquals(equipment.getId(), foundEquipment.get().getId());
     }
 
     @Test
@@ -84,10 +84,10 @@ public class EquipmentRepositoryTest {
 
         equipmentRepository.save(equipment);
 
-        Equipment savedEquipment = equipmentRepository.findById(equipment.getId());
+        Optional<Equipment> savedEquipment = equipmentRepository.findById(equipment.getId());
 
         assertNotNull(savedEquipment);
-        assertEquals(equipment.getName(), savedEquipment.getName());
+        assertEquals(equipment.getName(), savedEquipment.get().getName());
     }
 
     @Test
@@ -104,8 +104,8 @@ public class EquipmentRepositoryTest {
 
         equipmentRepository.deleteById(equipment.getId());
 
-        Equipment deletedEquipment = equipmentRepository.findById(equipment.getId());
+        Optional<Equipment> deletedEquipment = equipmentRepository.findById(equipment.getId());
 
-        assertNull(deletedEquipment);
+        assertTrue(deletedEquipment.isEmpty());
     }
 }

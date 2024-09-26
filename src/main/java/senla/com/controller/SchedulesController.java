@@ -2,30 +2,37 @@ package senla.com.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import senla.com.dto.SchedulesDto;
 import senla.com.mapper.JsonMapper;
 import senla.com.service.SchedulesService;
 
-@Controller
+import java.util.List;
+
+@RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/schedules")
 public class SchedulesController {
 
     private final SchedulesService schedulesService;
-    private final JsonMapper jsonMapper;
 
-    public String findById(Long id) {
-        return jsonMapper.serialize(schedulesService.findById(id));
+    @GetMapping("/{id}")
+    public SchedulesDto findById(@PathVariable("id") Long id) {
+        return schedulesService.findById(id);
     }
 
-    public String findAll() {
-        return jsonMapper.serialize(schedulesService.findAll());
+    @GetMapping
+    public List<SchedulesDto> findAll() {
+        return schedulesService.findAll();
     }
 
-    public void save(String schedulesDto) {
-        schedulesService.save(jsonMapper.deserialize(schedulesDto, SchedulesDto.class));
+    @PostMapping
+    public void save(@RequestBody SchedulesDto schedulesDto) {
+        schedulesService.save(schedulesDto);
     }
 
-    public void deleteById(Long id) {
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable("id") Long id) {
         schedulesService.deleteById(id);
     }
 }

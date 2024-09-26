@@ -4,7 +4,7 @@ import senla.com.entity.Payments;
 
 import java.util.List;
 
-public interface PaymentsRepository {
+public interface PaymentsRepository extends GenericRepository<Payments, Long> {
 
     List<Payments> findAllWithJpql();
 

@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import senla.com.configuration.ApplicationConfiguration;
 import senla.com.entity.SeasonTickets;
@@ -18,14 +19,13 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(
-        classes = ApplicationConfiguration.class,
-        loader = AnnotationConfigContextLoader.class
-)
+@ContextConfiguration(classes = ApplicationConfiguration.class)
+@WebAppConfiguration
 @Transactional
 public class SeasonTicketsRepositoryTest {
 
@@ -64,10 +64,10 @@ public class SeasonTicketsRepositoryTest {
                 .build();
         seasonTicketsRepository.save(seasonTicket);
 
-        SeasonTickets foundTicket = seasonTicketsRepository.findById(seasonTicket.getId());
+        Optional<SeasonTickets> foundTicket = seasonTicketsRepository.findById(seasonTicket.getId());
 
         assertNotNull(foundTicket);
-        assertEquals(seasonTicket.getId(), foundTicket.getId());
+        assertEquals(seasonTicket.getId(), foundTicket.get().getId());
     }
 
     @Test
@@ -137,10 +137,10 @@ public class SeasonTicketsRepositoryTest {
                 .build();
         seasonTicketsRepository.save(seasonTicket);
 
-        SeasonTickets savedTicket = seasonTicketsRepository.findById(seasonTicket.getId());
+        Optional<SeasonTickets> savedTicket = seasonTicketsRepository.findById(seasonTicket.getId());
 
         assertNotNull(savedTicket);
-        assertEquals(seasonTicket.getStartTime(), savedTicket.getStartTime());
+        assertEquals(seasonTicket.getStartTime(), savedTicket.get().getStartTime());
     }
 
     @Test
@@ -171,8 +171,8 @@ public class SeasonTicketsRepositoryTest {
 
         seasonTicketsRepository.deleteById(seasonTicket.getId());
 
-        SeasonTickets deletedTicket = seasonTicketsRepository.findById(seasonTicket.getId());
+        Optional<SeasonTickets> deletedTicket = seasonTicketsRepository.findById(seasonTicket.getId());
 
-        assertNull(deletedTicket);
+        assertTrue(deletedTicket.isEmpty());
     }
 }

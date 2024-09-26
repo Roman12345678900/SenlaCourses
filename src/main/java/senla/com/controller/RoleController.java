@@ -1,31 +1,36 @@
 package senla.com.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import senla.com.dto.RoleDto;
-import senla.com.mapper.JsonMapper;
 import senla.com.service.RoleService;
 
-@Controller
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1/roles")
 @RequiredArgsConstructor
 public class RoleController {
 
     private final RoleService roleService;
-    private final JsonMapper jsonMapper;
 
-    public String findById(Long id) {
-        return jsonMapper.serialize(roleService.findById(id));
+    @GetMapping("/{id}")
+    public RoleDto findById(@PathVariable("id") Long id) {
+        return roleService.findById(id);
     }
 
-    public String findAll() {
-        return jsonMapper.serialize(roleService.findAll());
+    @GetMapping
+    public List<RoleDto> findAll() {
+        return roleService.findAll();
     }
 
-    public void save(String roleDto) {
-        roleService.save(jsonMapper.deserialize(roleDto, RoleDto.class));
+    @PostMapping
+    public void save(@RequestBody RoleDto roleDto) {
+        roleService.save(roleDto);
     }
 
-    public void deleteById(Long id) {
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable("id") Long id) {
         roleService.deleteById(id);
     }
 }

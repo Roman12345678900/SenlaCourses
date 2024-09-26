@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import senla.com.configuration.ApplicationConfiguration;
 import senla.com.entity.Profiles;
@@ -15,14 +16,13 @@ import senla.com.repository.implementation.UserRepositoryImpl;
 import javax.annotation.Resource;
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(
-        classes = ApplicationConfiguration.class,
-        loader = AnnotationConfigContextLoader.class
-)
+@ContextConfiguration(classes = ApplicationConfiguration.class)
+@WebAppConfiguration
 @Transactional
 public class ProfilesRepositoryTest {
 
@@ -52,10 +52,10 @@ public class ProfilesRepositoryTest {
                 .build();
         profilesRepository.save(profile);
 
-        Profiles foundProfile = profilesRepository.findById(profile.getId());
+        Optional<Profiles> foundProfile = profilesRepository.findById(profile.getId());
 
         assertNotNull(foundProfile);
-        assertEquals(profile.getId(), foundProfile.getId());
+        assertEquals(profile.getId(), foundProfile.get().getId());
     }
 
     @Test
@@ -122,10 +122,10 @@ public class ProfilesRepositoryTest {
                 .build();
         profilesRepository.save(profile);
 
-        Profiles savedProfile = profilesRepository.findById(profile.getId());
+        Optional<Profiles> savedProfile = profilesRepository.findById(profile.getId());
 
         assertNotNull(savedProfile);
-        assertEquals(profile.getUser().getId(), savedProfile.getUser().getId());
+        assertEquals(profile.getUser().getId(), savedProfile.get().getUser().getId());
     }
 
     @Test
@@ -150,8 +150,8 @@ public class ProfilesRepositoryTest {
 
         profilesRepository.deleteById(profile.getId());
 
-        Profiles deletedProfile = profilesRepository.findById(profile.getId());
+        Optional<Profiles> deletedProfile = profilesRepository.findById(profile.getId());
 
-        assertNull(deletedProfile);
+        assertTrue(deletedProfile.isEmpty());
     }
 }

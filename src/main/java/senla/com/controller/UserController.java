@@ -1,35 +1,42 @@
 package senla.com.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import senla.com.dto.UserDto;
-import senla.com.mapper.JsonMapper;
 import senla.com.service.UserService;
 
-@Controller
+import javax.validation.Valid;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
-    private final JsonMapper jsonMapper;
 
-    public String findById(Long id) {
-        return jsonMapper.serialize(userService.findById(id));
+    @GetMapping("/{id}")
+    public UserDto findById(@PathVariable("id") Long id) {
+        return userService.findById(id);
     }
 
-    public String findAll() {
-        return jsonMapper.serialize(userService.findAll());
+    @GetMapping
+    public List<UserDto> findAll() {
+        return userService.findAll();
     }
 
-    public void save(String userDto) {
-        userService.save(jsonMapper.deserialize(userDto, UserDto.class));
+    @PostMapping
+    public void save(@RequestBody UserDto userDto) {
+        userService.save(userDto);
     }
 
-    public void update(Long id,String userDto){
-        userService.update(id, jsonMapper.deserialize(userDto, UserDto.class));
+    @PutMapping("/{id}")
+    public void update(@PathVariable("id") Long id, @RequestBody @Valid UserDto userDto) {
+        userService.update(id, userDto);
     }
 
-    public void deleteById(Long id) {
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable("id") Long id) {
         userService.deleteById(id);
     }
 }

@@ -4,7 +4,7 @@ import senla.com.entity.SeasonTickets;
 
 import java.util.List;
 
-public interface SeasonTicketsRepository {
+public interface SeasonTicketsRepository extends GenericRepository<SeasonTickets, Long> {
 
     List<SeasonTickets> findAllWithFetchCriteria();
 

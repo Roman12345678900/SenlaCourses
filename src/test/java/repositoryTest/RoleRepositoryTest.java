@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import senla.com.configuration.ApplicationConfiguration;
 import senla.com.entity.Role;
@@ -12,14 +13,13 @@ import senla.com.repository.implementation.RoleRepositoryImpl;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(
-        classes = ApplicationConfiguration.class,
-        loader = AnnotationConfigContextLoader.class
-)
+@ContextConfiguration(classes = ApplicationConfiguration.class)
+@WebAppConfiguration
 @Transactional
 public class RoleRepositoryTest {
 
@@ -34,11 +34,11 @@ public class RoleRepositoryTest {
                 .build();
         roleRepository.save(role);
 
-        Role foundRole = roleRepository.findById(role.getId());
+        Optional<Role> foundRole = roleRepository.findById(role.getId());
 
         assertNotNull(foundRole);
-        assertEquals(role.getId(), foundRole.getId());
-        assertEquals(role.getName(), foundRole.getName());
+        assertEquals(role.getId(), foundRole.get().getId());
+        assertEquals(role.getName(), foundRole.get().getName());
     }
 
     @Test
@@ -69,10 +69,10 @@ public class RoleRepositoryTest {
                 .build();
         roleRepository.save(role);
 
-        Role savedRole = roleRepository.findById(role.getId());
+        Optional<Role> savedRole = roleRepository.findById(role.getId());
 
         assertNotNull(savedRole);
-        assertEquals(role.getName(), savedRole.getName());
+        assertEquals(role.getName(), savedRole.get().getName());
     }
 
     @Test
@@ -85,8 +85,8 @@ public class RoleRepositoryTest {
 
         roleRepository.deleteById(role.getId());
 
-        Role deletedRole = roleRepository.findById(role.getId());
+        Optional<Role> deletedRole = roleRepository.findById(role.getId());
 
-        assertNull(deletedRole);
+        assertTrue(deletedRole.isEmpty());
     }
 }

@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import senla.com.configuration.ApplicationConfiguration;
 import senla.com.entity.Classes;
@@ -17,14 +18,13 @@ import senla.com.repository.implementation.UserRepositoryImpl;
 import javax.annotation.Resource;
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(
-        classes = ApplicationConfiguration.class,
-        loader = AnnotationConfigContextLoader.class
-)
+@ContextConfiguration(classes = ApplicationConfiguration.class)
+@WebAppConfiguration
 @Transactional
 public class ReviewsRepositoryTest {
 
@@ -67,11 +67,11 @@ public class ReviewsRepositoryTest {
 
         reviewsRepository.save(review);
 
-        Reviews foundReview = reviewsRepository.findById(review.getId());
+        Optional<Reviews> foundReview = reviewsRepository.findById(review.getId());
 
         assertNotNull(foundReview);
-        assertEquals(review.getId(), foundReview.getId());
-        assertEquals(review.getRating(), foundReview.getRating());
+        assertEquals(review.getId(), foundReview.get().getId());
+        assertEquals(review.getRating(), foundReview.get().getRating());
     }
 
     @Test
@@ -169,10 +169,10 @@ public class ReviewsRepositoryTest {
 
         reviewsRepository.save(review);
 
-        Reviews savedReview = reviewsRepository.findById(review.getId());
+        Optional<Reviews> savedReview = reviewsRepository.findById(review.getId());
 
         assertNotNull(savedReview);
-        assertEquals(review.getRating(), savedReview.getRating());
+        assertEquals(review.getRating(), savedReview.get().getRating());
     }
 
     @Test
@@ -207,8 +207,8 @@ public class ReviewsRepositoryTest {
 
         reviewsRepository.deleteById(review.getId());
 
-        Reviews deletedReview = reviewsRepository.findById(review.getId());
+        Optional<Reviews> deletedReview = reviewsRepository.findById(review.getId());
 
-        assertNull(deletedReview);
+        assertTrue(deletedReview.isEmpty());
     }
 }

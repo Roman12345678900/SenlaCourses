@@ -4,7 +4,7 @@ import senla.com.entity.TrainerSchedules;
 
 import java.util.List;
 
-public interface TrainerSchedulesRepository {
+public interface TrainerSchedulesRepository extends GenericRepository<TrainerSchedules, Long> {
 
     List<TrainerSchedules> findAllWithCriteria();
 

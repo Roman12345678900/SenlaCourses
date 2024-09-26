@@ -4,7 +4,7 @@ import senla.com.entity.Classes;
 
 import java.util.List;
 
-public interface ClassesRepository {
+public interface ClassesRepository extends GenericRepository<Classes, Long>{
 
 
     List<Classes> findAllWithUserCriteria();
