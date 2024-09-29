@@ -6,12 +6,14 @@ import org.springframework.transaction.annotation.Transactional;
 import senla.com.dto.SchedulesDto;
 import senla.com.entity.Schedules;
 import senla.com.exception.SchedulesNotFoundException;
+import senla.com.exception.UserNotFoundException;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.GenericRepository;
 import senla.com.repository.SchedulesRepository;
 import senla.com.service.SchedulesService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +48,7 @@ public class SchedulesServiceImpl implements SchedulesService {
     @Override
     @Transactional
     public void deleteById(Long id) {
-        schedulesRepository.deleteById(id);
-    }
+        Optional.ofNullable(schedulesRepository.findById(id)
+                .orElseThrow(() -> new SchedulesNotFoundException(id)));
+        schedulesRepository.deleteById(id);    }
 }

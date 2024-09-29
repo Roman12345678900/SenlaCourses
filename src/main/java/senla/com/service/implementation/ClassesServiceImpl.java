@@ -6,11 +6,13 @@ import org.springframework.transaction.annotation.Transactional;
 import senla.com.dto.ClassesDto;
 import senla.com.entity.Classes;
 import senla.com.exception.ClassesNotFoundException;
+import senla.com.exception.UserNotFoundException;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.GenericRepository;
 import senla.com.service.ClassesService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +47,7 @@ public class ClassesServiceImpl implements ClassesService {
     @Override
     @Transactional
     public void deleteById(Long id) {
-        classesRepository.deleteById(id);
-    }
+        Optional.ofNullable(classesRepository.findById(id)
+                .orElseThrow(() -> new ClassesNotFoundException(id)));
+        classesRepository.deleteById(id);    }
 }

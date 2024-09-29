@@ -12,6 +12,7 @@ import senla.com.service.UserService;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +47,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteById(Long id) {
+        Optional.ofNullable(userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id)));
         userRepository.deleteById(id);
     }
 

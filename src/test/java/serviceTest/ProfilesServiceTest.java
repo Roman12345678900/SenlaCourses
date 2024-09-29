@@ -12,6 +12,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import senla.com.configuration.ApplicationConfiguration;
 import senla.com.dto.ProfilesDto;
 import senla.com.entity.Profiles;
+import senla.com.entity.TrainerSchedules;
 import senla.com.entity.User;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.ProfilesRepository;
@@ -122,7 +123,13 @@ public class ProfilesServiceTest {
     @Test
     public void testDeleteById() {
         Long id = 1L;
+        Profiles profiles = new Profiles();
+        profiles.setId(id);
+
+        when(profilesRepository.findById(id)).thenReturn(Optional.of(profiles));
+
         profilesService.deleteById(id);
+
         verify(profilesRepository, times(1)).deleteById(id);
     }
 }

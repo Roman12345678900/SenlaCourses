@@ -6,11 +6,13 @@ import org.springframework.transaction.annotation.Transactional;
 import senla.com.dto.SeasonTicketsTypeDto;
 import senla.com.entity.SeasonTicketsType;
 import senla.com.exception.SeasonTicketsTypeNotFoundException;
+import senla.com.exception.UserNotFoundException;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.GenericRepository;
 import senla.com.service.SeasonTicketsTypeService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +47,8 @@ public class SeasonTicketsTypeServiceImpl implements SeasonTicketsTypeService {
     @Override
     @Transactional
     public void deleteById(Long id) {
+        Optional.ofNullable(seasonTicketsTypeRepository.findById(id)
+                .orElseThrow(() -> new SeasonTicketsTypeNotFoundException(id)));
         seasonTicketsTypeRepository.deleteById(id);
     }
 }

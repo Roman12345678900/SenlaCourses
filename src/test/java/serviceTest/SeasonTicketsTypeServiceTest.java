@@ -12,6 +12,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import senla.com.configuration.ApplicationConfiguration;
 import senla.com.dto.SeasonTicketsTypeDto;
 import senla.com.entity.SeasonTicketsType;
+import senla.com.entity.TrainerSchedules;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.SeasonTicketsTypeRepository;
 import senla.com.service.implementation.SeasonTicketsTypeServiceImpl;
@@ -102,7 +103,13 @@ public class SeasonTicketsTypeServiceTest {
     @Test
     public void testDeleteById() {
         Long id = 1L;
+        SeasonTicketsType seasonTicketsType = new SeasonTicketsType();
+        seasonTicketsType.setId(id);
+
+        when(seasonTicketsTypeRepository.findById(id)).thenReturn(Optional.of(seasonTicketsType));
+
         seasonTicketsTypeService.deleteById(id);
+
         verify(seasonTicketsTypeRepository, times(1)).deleteById(id);
     }
 }

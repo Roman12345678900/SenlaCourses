@@ -6,12 +6,14 @@ import org.springframework.transaction.annotation.Transactional;
 import senla.com.dto.EquipmentDto;
 import senla.com.entity.Equipment;
 import senla.com.exception.EquipmentNotFoundException;
+import senla.com.exception.UserNotFoundException;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.EquipmentRepository;
 import senla.com.repository.GenericRepository;
 import senla.com.service.EquipmentService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +48,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     @Override
     @Transactional
     public void deleteById(Long id) {
-        equipmentRepository.deleteById(id);
-    }
+        Optional.ofNullable(equipmentRepository.findById(id)
+                .orElseThrow(() -> new EquipmentNotFoundException(id)));
+        equipmentRepository.deleteById(id);    }
 }

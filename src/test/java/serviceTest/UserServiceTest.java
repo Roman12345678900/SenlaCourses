@@ -115,7 +115,13 @@ public class UserServiceTest {
     @Test
     public void testDeleteById() {
         Long id = 1L;
+        User user = new User();
+        user.setId(id);
+
+        when(userRepository.findById(id)).thenReturn(Optional.of(user));
+
         userService.deleteById(id);
+
         verify(userRepository, times(1)).deleteById(id);
     }
 }

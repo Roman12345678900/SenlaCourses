@@ -13,6 +13,7 @@ import senla.com.configuration.ApplicationConfiguration;
 import senla.com.dto.EquipmentMaintenanceDto;
 import senla.com.entity.Equipment;
 import senla.com.entity.EquipmentMaintenance;
+import senla.com.entity.TrainerSchedules;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.EquipmentMaintenanceRepository;
 import senla.com.service.implementation.EquipmentMaintenanceServiceImpl;
@@ -111,7 +112,13 @@ public class EquipmentMaintenanceServiceTest {
     @Test
     public void testDeleteById() {
         Long id = 1L;
+        EquipmentMaintenance equipmentMaintenance = new EquipmentMaintenance();
+        equipmentMaintenance.setId(id);
+
+        when(equipmentMaintenanceRepository.findById(id)).thenReturn(Optional.of(equipmentMaintenance));
+
         equipmentMaintenanceService.deleteById(id);
+
         verify(equipmentMaintenanceRepository, times(1)).deleteById(id);
     }
 }

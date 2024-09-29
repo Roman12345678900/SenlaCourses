@@ -13,6 +13,7 @@ import senla.com.configuration.ApplicationConfiguration;
 import senla.com.dto.SchedulesDto;
 import senla.com.entity.Classes;
 import senla.com.entity.Schedules;
+import senla.com.entity.TrainerSchedules;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.SchedulesRepository;
 import senla.com.service.implementation.SchedulesServiceImpl;
@@ -104,7 +105,7 @@ public class SchedulesServiceTest {
         schedule.setStartTime(Timestamp.valueOf("2024-09-25 09:00:00"));
         schedule.setEndTime(Timestamp.valueOf("2024-09-25 11:00:00"));
 
-        Classes classes = new Classes(); // инициализируйте класс Classes
+        Classes classes = new Classes();
         schedule.setClasses(classes);
 
         SchedulesDto scheduleDto = new SchedulesDto();
@@ -124,7 +125,13 @@ public class SchedulesServiceTest {
     @Test
     public void testDeleteById() {
         Long id = 1L;
+        Schedules schedules = new Schedules();
+        schedules.setId(id);
+
+        when(schedulesRepository.findById(id)).thenReturn(Optional.of(schedules));
+
         schedulesService.deleteById(id);
+
         verify(schedulesRepository, times(1)).deleteById(id);
     }
 }

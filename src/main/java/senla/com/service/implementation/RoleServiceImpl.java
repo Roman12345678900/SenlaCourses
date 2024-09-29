@@ -6,12 +6,14 @@ import org.springframework.transaction.annotation.Transactional;
 import senla.com.dto.RoleDto;
 import senla.com.entity.Role;
 import senla.com.exception.RoleNotFoundException;
+import senla.com.exception.UserNotFoundException;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.GenericRepository;
 import senla.com.repository.RoleRepository;
 import senla.com.service.RoleService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +48,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public void deleteById(Long id) {
-        roleRepository.deleteById(id);
-    }
+        Optional.ofNullable(roleRepository.findById(id)
+                .orElseThrow(() -> new RoleNotFoundException(id)));
+        roleRepository.deleteById(id);    }
 }

@@ -12,6 +12,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import senla.com.configuration.ApplicationConfiguration;
 import senla.com.dto.RoleDto;
 import senla.com.entity.Role;
+import senla.com.entity.TrainerSchedules;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.RoleRepository;
 import senla.com.service.implementation.RoleServiceImpl;
@@ -99,7 +100,13 @@ public class RoleServiceTest {
     @Test
     public void testDeleteById() {
         Long id = 1L;
+        Role role = new Role();
+        role.setId(id);
+
+        when(roleRepository.findById(id)).thenReturn(Optional.of(role));
+
         roleService.deleteById(id);
+
         verify(roleRepository, times(1)).deleteById(id);
     }
 }

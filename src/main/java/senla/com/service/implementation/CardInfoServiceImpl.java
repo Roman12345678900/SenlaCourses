@@ -6,12 +6,14 @@ import org.springframework.transaction.annotation.Transactional;
 import senla.com.dto.CardInfoDto;
 import senla.com.entity.CardInfo;
 import senla.com.exception.CardInfoNotFoundException;
+import senla.com.exception.UserNotFoundException;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.CardInfoRepository;
 import senla.com.repository.GenericRepository;
 import senla.com.service.CardInfoService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -47,6 +49,7 @@ public class CardInfoServiceImpl implements CardInfoService {
     @Override
     @Transactional
     public void deleteById(Long id) {
-        cardInfoRepository.deleteById(id);
-    }
+        Optional.ofNullable(cardInfoRepository.findById(id)
+                .orElseThrow(() -> new CardInfoNotFoundException(id)));
+        cardInfoRepository.deleteById(id);    }
 }

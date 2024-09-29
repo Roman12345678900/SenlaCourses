@@ -94,7 +94,13 @@ public class TrainerSchedulesServiceTest {
     @Test
     public void testDeleteById() {
         Long id = 1L;
+        TrainerSchedules trainerSchedules = new TrainerSchedules();
+        trainerSchedules.setId(id);
+
+        when(trainerSchedulesRepository.findById(id)).thenReturn(Optional.of(trainerSchedules));
+
         trainerSchedulesService.deleteById(id);
+
         verify(trainerSchedulesRepository, times(1)).deleteById(id);
     }
 }

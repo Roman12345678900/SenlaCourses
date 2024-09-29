@@ -6,12 +6,14 @@ import org.springframework.transaction.annotation.Transactional;
 import senla.com.dto.ReviewsDto;
 import senla.com.entity.Reviews;
 import senla.com.exception.ReviewsNotFoundException;
+import senla.com.exception.UserNotFoundException;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.GenericRepository;
 import senla.com.repository.ReviewsRepository;
 import senla.com.service.ReviewsService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +48,7 @@ public class ReviewsServiceImpl implements ReviewsService {
     @Override
     @Transactional
     public void deleteById(Long id) {
-        reviewsRepository.deleteById(id);
-    }
+        Optional.ofNullable(reviewsRepository.findById(id)
+                .orElseThrow(() -> new ReviewsNotFoundException(id)));
+        reviewsRepository.deleteById(id);    }
 }

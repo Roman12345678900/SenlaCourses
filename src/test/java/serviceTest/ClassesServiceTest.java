@@ -12,6 +12,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import senla.com.configuration.ApplicationConfiguration;
 import senla.com.dto.ClassesDto;
 import senla.com.entity.Classes;
+import senla.com.entity.TrainerSchedules;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.ClassesRepository;
 import senla.com.service.implementation.ClassesServiceImpl;
@@ -105,7 +106,13 @@ public class ClassesServiceTest {
     @Test
     public void testDeleteById() {
         Long id = 1L;
+        Classes classes = new Classes();
+        classes.setId(id);
+
+        when(classesRepository.findById(id)).thenReturn(Optional.of(classes));
+
         classesService.deleteById(id);
+
         verify(classesRepository, times(1)).deleteById(id);
     }
 }

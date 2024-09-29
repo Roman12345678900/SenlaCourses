@@ -13,6 +13,7 @@ import senla.com.configuration.ApplicationConfiguration;
 import senla.com.dto.ReviewsDto;
 import senla.com.entity.Classes;
 import senla.com.entity.Reviews;
+import senla.com.entity.TrainerSchedules;
 import senla.com.entity.User;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.ReviewsRepository;
@@ -124,7 +125,13 @@ public class ReviewsServiceTest {
     @Test
     public void testDeleteById() {
         Long id = 1L;
+        Reviews reviews = new Reviews();
+        reviews.setId(id);
+
+        when(reviewsRepository.findById(id)).thenReturn(Optional.of(reviews));
+
         reviewsService.deleteById(id);
+
         verify(reviewsRepository, times(1)).deleteById(id);
     }
 }

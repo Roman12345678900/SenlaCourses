@@ -38,11 +38,6 @@ public abstract class AbstractRepository<T, PK extends Serializable> implements 
 
     @Override
     public void deleteById(PK id) {
-        Optional<T> entityOptional = findById(id);
-        if (entityOptional.isPresent()) {
-            entityManager.remove(entityOptional.get());
-        } else {
-            throw new RuntimeException("Not Found");
-        }
+        findById(id).ifPresent(entity -> entityManager.remove(entity));
     }
 }

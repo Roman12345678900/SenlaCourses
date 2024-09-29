@@ -13,6 +13,7 @@ import senla.com.configuration.ApplicationConfiguration;
 import senla.com.dto.SeasonTicketsDto;
 import senla.com.entity.SeasonTickets;
 import senla.com.entity.SeasonTicketsType;
+import senla.com.entity.TrainerSchedules;
 import senla.com.entity.User;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.SeasonTicketsRepository;
@@ -119,7 +120,13 @@ public class SeasonTicketsServiceTest {
     @Test
     public void testDeleteById() {
         Long id = 1L;
+        SeasonTickets seasonTickets = new SeasonTickets();
+        seasonTickets.setId(id);
+
+        when(seasonTicketsRepository.findById(id)).thenReturn(Optional.of(seasonTickets));
+
         seasonTicketsService.deleteById(id);
+
         verify(seasonTicketsRepository, times(1)).deleteById(id);
     }
 }

@@ -6,12 +6,14 @@ import org.springframework.transaction.annotation.Transactional;
 import senla.com.dto.ProfilesDto;
 import senla.com.entity.Profiles;
 import senla.com.exception.ProfilesNotFoundException;
+import senla.com.exception.UserNotFoundException;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.GenericRepository;
 import senla.com.repository.ProfilesRepository;
 import senla.com.service.ProfilesService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +48,7 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Override
     @Transactional
     public void deleteById(Long id) {
-        profilesRepository.deleteById(id);
-    }
+        Optional.ofNullable(profilesRepository.findById(id)
+                .orElseThrow(() -> new ProfilesNotFoundException(id)));
+        profilesRepository.deleteById(id);    }
 }

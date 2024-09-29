@@ -12,6 +12,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import senla.com.configuration.ApplicationConfiguration;
 import senla.com.dto.PaymentsDto;
 import senla.com.entity.Payments;
+import senla.com.entity.TrainerSchedules;
 import senla.com.entity.User;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.PaymentsRepository;
@@ -110,7 +111,13 @@ public class PaymentsServiceTest {
     @Test
     public void testDeleteById() {
         Long id = 1L;
+        Payments payments = new Payments();
+        payments.setId(id);
+
+        when(paymentsRepository.findById(id)).thenReturn(Optional.of(payments));
+
         paymentsService.deleteById(id);
+
         verify(paymentsRepository, times(1)).deleteById(id);
     }
 }

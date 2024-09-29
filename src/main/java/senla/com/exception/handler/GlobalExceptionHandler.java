@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
             ClassesNotFoundException.class,
             CardInfoNotFoundException.class
     })
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<Object> handleNotFoundException(Exception e) {
         return new ResponseEntity<>("Not found error:" + e.getMessage(), HttpStatus.NOT_FOUND);
     }

@@ -12,6 +12,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import senla.com.configuration.ApplicationConfiguration;
 import senla.com.dto.CardInfoDto;
 import senla.com.entity.CardInfo;
+import senla.com.entity.TrainerSchedules;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.CardInfoRepository;
 import senla.com.service.implementation.CardInfoServiceImpl;
@@ -112,8 +113,14 @@ public class CardInfoServiceTest {
 
     @Test
     public void testDeleteById() {
-        Long cardNumber = 1234567890123456L; // пример номера карты
+        Long cardNumber = 1234567890123456L;
+        CardInfo cardInfo = new CardInfo();
+        cardInfo.setCardNumber(cardNumber);
+
+        when(cardInfoRepository.findById(cardNumber)).thenReturn(Optional.of(cardInfo));
+
         cardInfoService.deleteById(cardNumber);
+
         verify(cardInfoRepository, times(1)).deleteById(cardNumber);
     }
 }

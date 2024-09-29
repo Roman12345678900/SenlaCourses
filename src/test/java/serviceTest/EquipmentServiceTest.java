@@ -12,6 +12,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import senla.com.configuration.ApplicationConfiguration;
 import senla.com.dto.EquipmentDto;
 import senla.com.entity.Equipment;
+import senla.com.entity.TrainerSchedules;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.EquipmentRepository;
 import senla.com.service.implementation.EquipmentServiceImpl;
@@ -113,7 +114,13 @@ public class EquipmentServiceTest {
     @Test
     public void testDeleteById() {
         Long id = 1L;
+        Equipment equipment = new Equipment();
+        equipment.setId(id);
+
+        when(equipmentRepository.findById(id)).thenReturn(Optional.of(equipment));
+
         equipmentService.deleteById(id);
+
         verify(equipmentRepository, times(1)).deleteById(id);
     }
 }
