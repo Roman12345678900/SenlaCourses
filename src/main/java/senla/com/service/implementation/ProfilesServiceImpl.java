@@ -2,14 +2,18 @@ package senla.com.service.implementation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import senla.com.dto.ProfilesDto;
 import senla.com.entity.Profiles;
+import senla.com.exception.ProfilesNotFoundException;
+import senla.com.exception.UserNotFoundException;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.GenericRepository;
 import senla.com.repository.ProfilesRepository;
 import senla.com.service.ProfilesService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,12 +23,15 @@ public class ProfilesServiceImpl implements ProfilesService {
     private final GenericMapper genericMapper;
 
     @Override
+    @Transactional
     public ProfilesDto findById(Long id) {
-        Profiles profiles = profilesRepository.findById(id);
+        Profiles profiles = profilesRepository.findById(id).
+                orElseThrow(() -> new ProfilesNotFoundException(id));
         return genericMapper.convertToDto(profiles,ProfilesDto.class);
     }
 
     @Override
+    @Transactional
     public List<ProfilesDto> findAll() {
         return profilesRepository.findAll().stream()
                 .map(profiles -> genericMapper.convertToDto(profiles,ProfilesDto.class))
@@ -32,13 +39,16 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
+    @Transactional
     public void save(ProfilesDto profilesDto) {
         Profiles profiles = genericMapper.convertToEntity(profilesDto,Profiles.class);
         profilesRepository.save(profiles);
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
-        profilesRepository.deleteById(id);
-    }
+        Optional.ofNullable(profilesRepository.findById(id)
+                .orElseThrow(() -> new ProfilesNotFoundException(id)));
+        profilesRepository.deleteById(id);    }
 }

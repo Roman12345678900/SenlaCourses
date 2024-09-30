@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import senla.com.configuration.ApplicationConfiguration;
 import senla.com.entity.Equipment;
@@ -16,14 +17,13 @@ import javax.annotation.Resource;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(
-        classes = ApplicationConfiguration.class,
-        loader = AnnotationConfigContextLoader.class
-)
+@ContextConfiguration(classes = ApplicationConfiguration.class)
+@WebAppConfiguration
 @Transactional
 public class EquipmentMaintenanceRepositoryTest {
 
@@ -52,10 +52,10 @@ public class EquipmentMaintenanceRepositoryTest {
 
         equipmentMaintenanceRepository.save(maintenance);
 
-        EquipmentMaintenance foundMaintenance = equipmentMaintenanceRepository.findById(maintenance.getId());
+        Optional<EquipmentMaintenance> foundMaintenance = equipmentMaintenanceRepository.findById(maintenance.getId());
 
         assertNotNull(foundMaintenance);
-        assertEquals(maintenance.getId(), foundMaintenance.getId());
+        assertEquals(maintenance.getId(), foundMaintenance.get().getId());
     }
 
     @Test
@@ -121,10 +121,10 @@ public class EquipmentMaintenanceRepositoryTest {
 
         equipmentMaintenanceRepository.save(maintenance);
 
-        EquipmentMaintenance savedMaintenance = equipmentMaintenanceRepository.findById(maintenance.getId());
+        Optional<EquipmentMaintenance> savedMaintenance = equipmentMaintenanceRepository.findById(maintenance.getId());
 
         assertNotNull(savedMaintenance);
-        assertEquals(maintenance.getEquipment().getId(), savedMaintenance.getEquipment().getId());
+        assertEquals(maintenance.getEquipment().getId(), savedMaintenance.get().getEquipment().getId());
     }
 
     @Test
@@ -148,8 +148,8 @@ public class EquipmentMaintenanceRepositoryTest {
 
         equipmentMaintenanceRepository.deleteById(maintenance.getId());
 
-        EquipmentMaintenance deletedMaintenance = equipmentMaintenanceRepository.findById(maintenance.getId());
+        Optional<EquipmentMaintenance> deletedMaintenance = equipmentMaintenanceRepository.findById(maintenance.getId());
 
-        assertNull(deletedMaintenance);
+        assertTrue(deletedMaintenance.isEmpty());
     }
 }

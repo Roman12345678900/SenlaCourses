@@ -1,31 +1,36 @@
 package senla.com.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import senla.com.dto.ClassesDto;
-import senla.com.mapper.JsonMapper;
 import senla.com.service.ClassesService;
 
-@Controller
+import java.util.List;
+
+@RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/classes")
 public class ClassesController {
 
     private final ClassesService classesService;
-    private final JsonMapper jsonMapper;
 
-    public String findById(Long id) {
-        return jsonMapper.serialize(classesService.findById(id));
+    @GetMapping("/{id}")
+    public ClassesDto findById(@PathVariable("id") Long id) {
+        return classesService.findById(id);
     }
 
-    public String findAll() {
-        return jsonMapper.serialize(classesService.findAll());
+    @GetMapping
+    public List<ClassesDto> findAll() {
+        return classesService.findAll();
     }
 
-    public void save(String classesDto) {
-        classesService.save(jsonMapper.deserialize(classesDto, ClassesDto.class));
+    @PostMapping
+    public void save(@RequestBody ClassesDto classesDto) {
+        classesService.save(classesDto);
     }
 
-    public void deleteById(Long id) {
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable("id") Long id) {
         classesService.deleteById(id);
     }
 }

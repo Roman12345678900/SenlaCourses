@@ -5,13 +5,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import senla.com.dto.UserDto;
 import senla.com.entity.User;
+import senla.com.exception.UserNotFoundException;
 import senla.com.mapper.GenericMapper;
 import senla.com.repository.GenericRepository;
-import senla.com.repository.UserRepository;
 import senla.com.service.UserService;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,38 +21,42 @@ public class UserServiceImpl implements UserService {
     private final GenericRepository<User, Long> userRepository;
     private final GenericMapper genericMapper;
 
-    @Transactional
     @Override
+    @Transactional
     public UserDto findById(Long id) {
-        User user = userRepository.findById(id);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
         return genericMapper.convertToDto(user, UserDto.class);
     }
 
-    @Transactional
     @Override
+    @Transactional
     public List<UserDto> findAll() {
         return userRepository.findAll().stream()
                 .map(user -> genericMapper.convertToDto(user, UserDto.class))
                 .toList();
     }
 
-    @Transactional
     @Override
+    @Transactional
     public void save(UserDto userDto) {
         User user = genericMapper.convertToEntity(userDto, User.class);
         userRepository.save(user);
     }
 
-    @Transactional
     @Override
+    @Transactional
     public void deleteById(Long id) {
+        Optional.ofNullable(userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id)));
         userRepository.deleteById(id);
     }
 
-    @Transactional
     @Override
+    @Transactional
     public boolean update(Long id, UserDto userDto) {
-        User user = userRepository.findById(id);
+        User user = userRepository.findById(id).
+                orElseThrow(() -> new UserNotFoundException(id));
         if (user != null) {
             if (!userDto.getFirstName().isEmpty()) {
                 user.setFirstName(userDto.getFirstName());

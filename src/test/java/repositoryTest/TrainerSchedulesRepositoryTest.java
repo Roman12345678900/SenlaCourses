@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import senla.com.configuration.ApplicationConfiguration;
 import senla.com.entity.TrainerSchedules;
@@ -15,14 +16,13 @@ import senla.com.repository.implementation.UserRepositoryImpl;
 import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(
-        classes = ApplicationConfiguration.class,
-        loader = AnnotationConfigContextLoader.class
-)
+@ContextConfiguration(classes = ApplicationConfiguration.class)
+@WebAppConfiguration
 @Transactional
 public class TrainerSchedulesRepositoryTest {
 
@@ -51,10 +51,10 @@ public class TrainerSchedulesRepositoryTest {
 
         trainerSchedulesRepository.save(schedule);
 
-        TrainerSchedules foundSchedule = trainerSchedulesRepository.findById(schedule.getId());
+        Optional<TrainerSchedules> foundSchedule = trainerSchedulesRepository.findById(schedule.getId());
 
         assertNotNull(foundSchedule);
-        assertEquals(schedule.getId(), foundSchedule.getId());
+        assertEquals(schedule.getId(), foundSchedule.get().getId());
     }
 
     @Test
@@ -108,10 +108,10 @@ public class TrainerSchedulesRepositoryTest {
 
         trainerSchedulesRepository.save(schedule);
 
-        TrainerSchedules savedSchedule = trainerSchedulesRepository.findById(schedule.getId());
+        Optional<TrainerSchedules> savedSchedule = trainerSchedulesRepository.findById(schedule.getId());
 
         assertNotNull(savedSchedule);
-        assertEquals(schedule.getStartTime(), savedSchedule.getStartTime());
+        assertEquals(schedule.getStartTime(), savedSchedule.get().getStartTime());
     }
 
     @Test
@@ -135,8 +135,8 @@ public class TrainerSchedulesRepositoryTest {
 
         trainerSchedulesRepository.deleteById(schedule.getId());
 
-        TrainerSchedules deletedSchedule = trainerSchedulesRepository.findById(schedule.getId());
+        Optional<TrainerSchedules> deletedSchedule = trainerSchedulesRepository.findById(schedule.getId());
 
-        assertNull(deletedSchedule);
+        assertTrue(deletedSchedule.isEmpty());
     }
 }

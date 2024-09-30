@@ -1,31 +1,36 @@
 package senla.com.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import senla.com.dto.EquipmentDto;
-import senla.com.mapper.JsonMapper;
 import senla.com.service.EquipmentService;
 
-@Controller
+import java.util.List;
+
+@RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/equipment")
 public class EquipmentController {
 
     private final EquipmentService equipmentService;
-    private final JsonMapper jsonMapper;
 
-    public String findById(Long id) {
-        return jsonMapper.serialize(equipmentService.findById(id));
+    @GetMapping("/{id}")
+    public EquipmentDto findById(@PathVariable("id") Long id) {
+        return equipmentService.findById(id);
     }
 
-    public String findAll() {
-        return jsonMapper.serialize(equipmentService.findAll());
+    @GetMapping
+    public List<EquipmentDto> findAll() {
+        return equipmentService.findAll();
     }
 
-    public void save(String equipmentDto) {
-        equipmentService.save(jsonMapper.deserialize(equipmentDto, EquipmentDto.class));
+    @PostMapping
+    public void save(@RequestBody EquipmentDto equipmentDto) {
+        equipmentService.save(equipmentDto);
     }
 
-    public void deleteById(Long id) {
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable("id") Long id) {
         equipmentService.deleteById(id);
     }
 }

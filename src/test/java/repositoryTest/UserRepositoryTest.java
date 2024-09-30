@@ -4,7 +4,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import senla.com.configuration.ApplicationConfiguration;
 import senla.com.entity.User;
@@ -13,15 +15,14 @@ import senla.com.repository.implementation.UserRepositoryImpl;
 import javax.annotation.Resource;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(
-        classes = ApplicationConfiguration.class,
-        loader = AnnotationConfigContextLoader.class
-)
 @Transactional
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = ApplicationConfiguration.class)
+@WebAppConfiguration
 public class UserRepositoryTest {
 
     @Resource
@@ -38,10 +39,10 @@ public class UserRepositoryTest {
 
         userRepository.save(user);
 
-        User found = userRepository.findById(user.getId());
+        Optional<User> found = userRepository.findById(user.getId());
 
         assertNotNull(found);
-        assertEquals(user.getId(), found.getId());
+        assertEquals(user.getId(), found.get().getId());
     }
 
     @Test
@@ -79,10 +80,10 @@ public class UserRepositoryTest {
 
         userRepository.save(user);
 
-        User testUser = userRepository.findById(user.getId());
+        Optional<User> testUser = userRepository.findById(user.getId());
 
         assertNotNull(testUser);
-        assertEquals(user.getFirstName(), testUser.getFirstName());
+        assertEquals(user.getFirstName(), testUser.get().getFirstName());
     }
 
     @Test
@@ -98,8 +99,8 @@ public class UserRepositoryTest {
 
         userRepository.deleteById(user.getId());
 
-        User deletedUser = userRepository.findById(user.getId());
+        Optional<User> deletedUser = userRepository.findById(user.getId());
 
-        assertNull(deletedUser);
+        assertTrue(deletedUser.isEmpty());
     }
 }

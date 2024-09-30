@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -19,8 +20,8 @@ public abstract class AbstractRepository<T, PK extends Serializable> implements 
     public abstract Class<T> getEntityclass();
 
     @Override
-    public T findById(PK id) {
-        return entityManager.find(getEntityclass(),id);
+    public Optional<T> findById(PK id) {
+        return Optional.ofNullable(entityManager.find(getEntityclass(), id));
     }
 
     @Override
@@ -37,10 +38,6 @@ public abstract class AbstractRepository<T, PK extends Serializable> implements 
 
     @Override
     public void deleteById(PK id) {
-        T entity = findById(id);
-
-        if (entity != null) {
-            entityManager.remove(entity);
-        }
+        findById(id).ifPresent(entity -> entityManager.remove(entity));
     }
 }

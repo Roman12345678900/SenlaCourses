@@ -1,31 +1,36 @@
 package senla.com.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import senla.com.dto.TrainerSchedulesDto;
-import senla.com.mapper.JsonMapper;
 import senla.com.service.TrainerSchedulesService;
 
-@Controller
+import java.util.List;
+
+@RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/trainer-schedules")
 public class TrainerSchedulesController {
 
     private final TrainerSchedulesService trainerSchedulesService;
-    private final JsonMapper jsonMapper;
 
-    public String findById(Long id) {
-        return jsonMapper.serialize(trainerSchedulesService.findById(id));
+    @GetMapping("/{id}")
+    public TrainerSchedulesDto findById(@PathVariable("id") Long id) {
+        return trainerSchedulesService.findById(id);
     }
 
-    public String findAll() {
-        return jsonMapper.serialize(trainerSchedulesService.findAll());
+    @GetMapping
+    public List<TrainerSchedulesDto> findAll() {
+        return trainerSchedulesService.findAll();
     }
 
-    public void save(String trainerSchedulesDto) {
-        trainerSchedulesService.save(jsonMapper.deserialize(trainerSchedulesDto, TrainerSchedulesDto.class));
+    @PostMapping
+    public void save(@RequestBody TrainerSchedulesDto trainerSchedulesDto) {
+        trainerSchedulesService.save(trainerSchedulesDto);
     }
 
-    public void deleteById(Long id) {
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable("id") Long id) {
         trainerSchedulesService.deleteById(id);
     }
 }

@@ -1,31 +1,36 @@
 package senla.com.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import senla.com.dto.PaymentsDto;
-import senla.com.mapper.JsonMapper;
 import senla.com.service.PaymentsService;
 
-@Controller
+import java.util.List;
+
+@RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/payments")
 public class PaymentsController {
 
     private final PaymentsService paymentsService;
-    private final JsonMapper jsonMapper;
 
-    public String findById(Long id) {
-        return jsonMapper.serialize(paymentsService.findById(id));
+    @GetMapping("/{id}")
+    public PaymentsDto findById(@PathVariable("id") Long id) {
+        return paymentsService.findById(id);
     }
 
-    public String findAll() {
-        return jsonMapper.serialize(paymentsService.findAll());
+    @GetMapping
+    public List<PaymentsDto> findAll() {
+        return paymentsService.findAll();
     }
 
-    public void save(String paymentsDto) {
-        paymentsService.save(jsonMapper.deserialize(paymentsDto, PaymentsDto.class));
+    @PostMapping
+    public void save(@RequestBody PaymentsDto paymentsDto) {
+        paymentsService.save(paymentsDto);
     }
 
-    public void deleteById(Long id) {
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable("id") Long id) {
         paymentsService.deleteById(id);
     }
 }

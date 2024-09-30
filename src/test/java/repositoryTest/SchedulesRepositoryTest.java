@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import senla.com.configuration.ApplicationConfiguration;
 import senla.com.entity.Classes;
@@ -17,14 +18,13 @@ import senla.com.repository.implementation.UserRepositoryImpl;
 import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(
-        classes = ApplicationConfiguration.class,
-        loader = AnnotationConfigContextLoader.class
-)
+@ContextConfiguration(classes = ApplicationConfiguration.class)
+@WebAppConfiguration
 @Transactional
 public class SchedulesRepositoryTest {
 
@@ -68,10 +68,10 @@ public class SchedulesRepositoryTest {
 
         schedulesRepository.save(schedule);
 
-        Schedules foundSchedule = schedulesRepository.findById(schedule.getId());
+        Optional<Schedules> foundSchedule = schedulesRepository.findById(schedule.getId());
 
         assertNotNull(foundSchedule);
-        assertEquals(schedule.getId(), foundSchedule.getId());
+        assertEquals(schedule.getId(), foundSchedule.get().getId());
     }
 
     @Test
@@ -151,10 +151,10 @@ public class SchedulesRepositoryTest {
 
         schedulesRepository.save(schedule);
 
-        Schedules savedSchedule = schedulesRepository.findById(schedule.getId());
+        Optional<Schedules> savedSchedule = schedulesRepository.findById(schedule.getId());
 
         assertNotNull(savedSchedule);
-        assertEquals(schedule.getStartTime(), savedSchedule.getStartTime());
+        assertEquals(schedule.getStartTime(), savedSchedule.get().getStartTime());
     }
 
     @Test
@@ -190,8 +190,8 @@ public class SchedulesRepositoryTest {
 
         schedulesRepository.deleteById(schedule.getId());
 
-        Schedules deletedSchedule = schedulesRepository.findById(schedule.getId());
+        Optional<Schedules> deletedSchedule = schedulesRepository.findById(schedule.getId());
 
-        assertNull(deletedSchedule);
+        assertTrue(deletedSchedule.isEmpty());
     }
 }

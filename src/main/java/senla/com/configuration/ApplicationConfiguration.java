@@ -18,6 +18,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.sql.DataSource;
 import java.text.SimpleDateFormat;
@@ -27,6 +28,7 @@ import java.util.Properties;
 import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
 @Slf4j
+@EnableWebMvc
 @Configuration
 @ComponentScan("senla.com")
 @EnableTransactionManagement
@@ -107,7 +109,7 @@ public class ApplicationConfiguration {
     public LocalContainerEntityManagerFactoryBean entityManager(DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
-        em.setPackagesToScan("senla");
+        em.setPackagesToScan("senla.com.entity");
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         em.setJpaProperties(hibernateProperties());
         return em;

@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import senla.com.configuration.ApplicationConfiguration;
 import senla.com.entity.SeasonTicketsType;
@@ -13,14 +14,13 @@ import senla.com.repository.implementation.SeasonTicketsTypeRepositoryImpl;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(
-        classes = ApplicationConfiguration.class,
-        loader = AnnotationConfigContextLoader.class
-)
+@ContextConfiguration(classes = ApplicationConfiguration.class)
+@WebAppConfiguration
 @Transactional
 public class SeasonTicketsTypeRepositoryTest {
 
@@ -37,10 +37,10 @@ public class SeasonTicketsTypeRepositoryTest {
 
         seasonTicketsTypeRepository.save(seasonTicketsType);
 
-        SeasonTicketsType found = seasonTicketsTypeRepository.findById(seasonTicketsType.getId());
+        Optional<SeasonTicketsType> found = seasonTicketsTypeRepository.findById(seasonTicketsType.getId());
 
         assertNotNull(found);
-        assertEquals(seasonTicketsType.getId(), found.getId());
+        assertEquals(seasonTicketsType.getId(), found.get().getId());
     }
 
     @Test
@@ -75,10 +75,10 @@ public class SeasonTicketsTypeRepositoryTest {
 
         seasonTicketsTypeRepository.save(seasonTicketsType);
 
-        SeasonTicketsType seasonTicketsType1 = seasonTicketsTypeRepository.findById(seasonTicketsType.getId());
+        Optional<SeasonTicketsType> seasonTicketsType1 = seasonTicketsTypeRepository.findById(seasonTicketsType.getId());
 
         assertNotNull(seasonTicketsType1);
-        assertEquals(seasonTicketsType.getName(), seasonTicketsType1.getName());
+        assertEquals(seasonTicketsType.getName(), seasonTicketsType1.get().getName());
     }
 
     @Test
@@ -93,8 +93,8 @@ public class SeasonTicketsTypeRepositoryTest {
 
         seasonTicketsTypeRepository.deleteById(seasonTicketsType.getId());
 
-        SeasonTicketsType seasonTicketsType1 = seasonTicketsTypeRepository.findById(seasonTicketsType.getId());
+        Optional<SeasonTicketsType> seasonTicketsType1 = seasonTicketsTypeRepository.findById(seasonTicketsType.getId());
 
-        assertNull(seasonTicketsType1);
+        assertTrue(seasonTicketsType1.isEmpty());
     }
 }

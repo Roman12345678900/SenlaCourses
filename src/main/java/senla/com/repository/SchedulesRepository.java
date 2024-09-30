@@ -5,7 +5,7 @@ import senla.com.entity.Schedules;
 
 import java.util.List;
 
-public interface SchedulesRepository {
+public interface SchedulesRepository extends GenericRepository<Schedules, Long> {
 
     List<Schedules> findAllWithFetchCriteria();
 

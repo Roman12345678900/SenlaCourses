@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import senla.com.configuration.ApplicationConfiguration;
 import senla.com.entity.Classes;
@@ -14,14 +15,13 @@ import senla.com.repository.implementation.UserRepositoryImpl;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(
-        classes = ApplicationConfiguration.class,
-        loader = AnnotationConfigContextLoader.class
-)
+@ContextConfiguration(classes = ApplicationConfiguration.class)
+@WebAppConfiguration
 @Transactional
 public class ClassesRepositoryTest {
 
@@ -49,13 +49,13 @@ public class ClassesRepositoryTest {
                 .build();
         classesRepository.save(classes);
 
-        Classes foundClass = classesRepository.findById(classes.getId());
+        Optional<Classes> foundClass = classesRepository.findById(classes.getId());
 
         assertNotNull(foundClass);
-        assertEquals(classes.getId(), foundClass.getId());
-        assertEquals(classes.getName(), foundClass.getName());
-        assertEquals(classes.getDescription(), foundClass.getDescription());
-        assertEquals(classes.getUsers().getId(), foundClass.getUsers().getId());
+        assertEquals(classes.getId(), foundClass.get().getId());
+        assertEquals(classes.getName(), foundClass.get().getName());
+        assertEquals(classes.getDescription(), foundClass.get().getDescription());
+        assertEquals(classes.getUsers().getId(), foundClass.get().getUsers().getId());
     }
 
     @Test
@@ -115,12 +115,12 @@ public class ClassesRepositoryTest {
                 .build();
         classesRepository.save(classes);
 
-        Classes savedClass = classesRepository.findById(classes.getId());
+        Optional<Classes> savedClass = classesRepository.findById(classes.getId());
 
         assertNotNull(savedClass);
-        assertEquals(classes.getName(), savedClass.getName());
-        assertEquals(classes.getDescription(), savedClass.getDescription());
-        assertEquals(classes.getUsers().getId(), savedClass.getUsers().getId());
+        assertEquals(classes.getName(), savedClass.get().getName());
+        assertEquals(classes.getDescription(), savedClass.get().getDescription());
+        assertEquals(classes.getUsers().getId(), savedClass.get().getUsers().getId());
     }
 
     @Test
@@ -143,8 +143,8 @@ public class ClassesRepositoryTest {
 
         classesRepository.deleteById(classes.getId());
 
-        Classes deletedClass = classesRepository.findById(classes.getId());
+        Optional<Classes> deletedClass = classesRepository.findById(classes.getId());
 
-        assertNull(deletedClass);
+        assertTrue(deletedClass.isEmpty());
     }
 }

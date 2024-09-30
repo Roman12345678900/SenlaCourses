@@ -1,31 +1,36 @@
 package senla.com.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import senla.com.dto.SeasonTicketsTypeDto;
-import senla.com.mapper.JsonMapper;
 import senla.com.service.SeasonTicketsTypeService;
 
-@Controller
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1/season-tickets-types")
 @RequiredArgsConstructor
 public class SeasonTicketsTypeController {
 
     private final SeasonTicketsTypeService seasonTicketsTypeService;
-    private final JsonMapper jsonMapper;
 
-    public String findById(Long id) {
-        return jsonMapper.serialize(seasonTicketsTypeService.findById(id));
+    @GetMapping("/{id}")
+    public SeasonTicketsTypeDto findById(@PathVariable("id") Long id) {
+        return seasonTicketsTypeService.findById(id);
     }
 
-    public String findAll() {
-        return jsonMapper.serialize(seasonTicketsTypeService.findAll());
+    @GetMapping
+    public List<SeasonTicketsTypeDto> findAll() {
+        return seasonTicketsTypeService.findAll();
     }
 
-    public void save(String seasonTicketsTypeDto) {
-        seasonTicketsTypeService.save(jsonMapper.deserialize(seasonTicketsTypeDto, SeasonTicketsTypeDto.class));
+    @PostMapping
+    public void save(@RequestBody SeasonTicketsTypeDto seasonTicketsTypeDto) {
+        seasonTicketsTypeService.save(seasonTicketsTypeDto);
     }
 
-    public void deleteById(Long id) {
-
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable("id") Long id) {
+        seasonTicketsTypeService.deleteById(id);
     }
 }

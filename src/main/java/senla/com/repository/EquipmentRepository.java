@@ -4,7 +4,7 @@ import senla.com.entity.Equipment;
 
 import java.util.List;
 
-public interface EquipmentRepository {
+public interface EquipmentRepository extends GenericRepository<Equipment, Long> {
 
     List<Equipment> findByStatusWithFetchCriteria(String status);
 

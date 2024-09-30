@@ -2,9 +2,11 @@ package senla.com.repository;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 public interface GenericRepository<T, PK extends Serializable> {
-    T findById(PK id);
+
+    Optional<T> findById(PK id);
 
     List<T> findAll();
 

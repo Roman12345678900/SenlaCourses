@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Setter
 @Getter
@@ -18,7 +19,8 @@ public class CardInfoDto {
     @NotNull
     private Long cardNumber;
     private String cardHolderName;
-    private Date validityPeriod;
+    private LocalDate validityPeriodStart;
+    private LocalDate validityPeriodEnd;
     @NotNull
     private Long userId;
 }

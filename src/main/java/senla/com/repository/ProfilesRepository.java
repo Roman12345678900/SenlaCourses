@@ -4,7 +4,7 @@ import senla.com.entity.Profiles;
 
 import java.util.List;
 
-public interface ProfilesRepository {
+public interface ProfilesRepository extends GenericRepository<Profiles, Long> {
 
     List<Profiles> findWithJpql();
 
