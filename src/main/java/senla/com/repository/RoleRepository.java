@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface RoleRepository extends GenericRepository<Role, Long> {
 
-    List<Role> findByNameWithFetchCriteria(String name);
+    Role findByName(String name);
 
     List<Role> findAllWithFetchJPQL();
 

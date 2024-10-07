@@ -51,6 +51,7 @@ public class UserRepositoryTest {
                 .id(5L)
                 .firstName("Test5")
                 .lastName("Senla")
+                .password("1234")
                 .email("test@test.com")
                 .build();
 
@@ -58,6 +59,7 @@ public class UserRepositoryTest {
                 .id(11L)
                 .firstName("Test11")
                 .lastName("Senla")
+                .password("1234")
                 .email("test@test.com")
                 .build();
 
@@ -66,7 +68,7 @@ public class UserRepositoryTest {
 
         List<User> users = userRepository.findAll();
 
-        assertEquals(2, users.size());
+        assertEquals(5, users.size());
     }
 
     @Test
@@ -75,6 +77,7 @@ public class UserRepositoryTest {
                 .id(1L)
                 .firstName("Test")
                 .lastName("Senla")
+                .password("1234")
                 .email("test@test.com")
                 .build();
 
@@ -92,6 +95,7 @@ public class UserRepositoryTest {
                 .id(1L)
                 .firstName("Test")
                 .lastName("Senla")
+                .password("1234")
                 .email("test@test.com")
                 .build();
 

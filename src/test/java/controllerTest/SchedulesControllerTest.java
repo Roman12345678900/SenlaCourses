@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -40,6 +41,7 @@ public class SchedulesControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "roman@gmail.com" , password = "1234" , roles = "USER")
     public void testFindById() throws Exception {
         Long id = 1L;
 
@@ -51,6 +53,7 @@ public class SchedulesControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "roman@gmail.com" , password = "1234" , roles = "USER")
     public void testFindAll() throws Exception {
         mockMvc.perform(get("/api/v1/schedules")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -58,6 +61,7 @@ public class SchedulesControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "roman@gmail.com" , password = "1234" , roles = "USER")
     public void testSave() throws Exception {
         mockMvc.perform(post("/api/v1/schedules")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -67,6 +71,7 @@ public class SchedulesControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "roman@gmail.com" , password = "1234" , roles = "USER")
     public void testDeleteById() throws Exception {
         mockMvc.perform(delete("/api/v1/schedules/{id}", 1)
                         .contentType(MediaType.APPLICATION_JSON))

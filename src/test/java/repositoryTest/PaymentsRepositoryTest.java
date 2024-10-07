@@ -56,6 +56,7 @@ public class PaymentsRepositoryTest {
         User user1 = User.builder()
                 .id(1L)
                 .firstName("qwe")
+                .password("1234")
                 .lastName("asd")
                 .email("qwe@asd.com")
                 .build();
@@ -66,6 +67,7 @@ public class PaymentsRepositoryTest {
                 .id(2L)
                 .firstName("qwe")
                 .lastName("asd")
+                .password("1234")
                 .email("qwe@asd.com")
                 .build();
 

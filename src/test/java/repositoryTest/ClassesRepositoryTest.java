@@ -38,6 +38,7 @@ public class ClassesRepositoryTest {
                 .firstName("John")
                 .lastName("Doe")
                 .email("john.doe@test.com")
+                .password("1234")
                 .build();
         userRepository.save(user);
 
@@ -63,6 +64,7 @@ public class ClassesRepositoryTest {
         User user1 = User.builder()
                 .id(2L)
                 .firstName("Alice")
+                .password("1234")
                 .lastName("Smith")
                 .email("alice.smith@test.com")
                 .build();
@@ -71,6 +73,7 @@ public class ClassesRepositoryTest {
         User user2 = User.builder()
                 .id(3L)
                 .firstName("Bob")
+                .password("1234")
                 .lastName("Johnson")
                 .email("bob.johnson@test.com")
                 .build();
@@ -102,6 +105,7 @@ public class ClassesRepositoryTest {
         User user = User.builder()
                 .id(4L)
                 .firstName("Carol")
+                .password("1234")
                 .lastName("Williams")
                 .email("carol.williams@test.com")
                 .build();
@@ -128,6 +132,7 @@ public class ClassesRepositoryTest {
         User user = User.builder()
                 .id(6L)
                 .firstName("Emma")
+                .password("1234")
                 .lastName("Jones")
                 .email("emma.jones@test.com")
                 .build();

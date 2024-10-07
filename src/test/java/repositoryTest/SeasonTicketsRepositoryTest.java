@@ -44,6 +44,7 @@ public class SeasonTicketsRepositoryTest {
                 .id(1L)
                 .firstName("Test")
                 .lastName("Senla")
+                .password("1234")
                 .email("test@test.com")
                 .build();
         userRepository.save(user);
@@ -76,6 +77,7 @@ public class SeasonTicketsRepositoryTest {
                 .id(2L)
                 .firstName("Test")
                 .lastName("Senla")
+                .password("1234")
                 .email("test2@test.com")
                 .build();
         userRepository.save(user);
@@ -117,6 +119,7 @@ public class SeasonTicketsRepositoryTest {
                 .id(3L)
                 .firstName("Test")
                 .lastName("Senla")
+                .password("1234")
                 .email("test3@test.com")
                 .build();
         userRepository.save(user);
@@ -148,6 +151,7 @@ public class SeasonTicketsRepositoryTest {
         User user = User.builder()
                 .id(4L)
                 .firstName("Test")
+                .password("1234")
                 .lastName("Senla")
                 .email("test4@test.com")
                 .build();

@@ -37,6 +37,7 @@ public class ProfilesRepositoryTest {
         User user = User.builder()
                 .id(1L)
                 .firstName("Alice")
+                .password("1234")
                 .lastName("Johnson")
                 .email("alice.johnson@test.com")
                 .build();
@@ -63,6 +64,7 @@ public class ProfilesRepositoryTest {
         User user1 = User.builder()
                 .id(2L)
                 .firstName("Bob")
+                .password("1234")
                 .lastName("Smith")
                 .email("bob.smith@test.com")
                 .build();
@@ -71,6 +73,7 @@ public class ProfilesRepositoryTest {
         User user2 = User.builder()
                 .id(3L)
                 .firstName("Charlie")
+                .password("1234")
                 .lastName("Brown")
                 .email("charlie.brown@test.com")
                 .build();
@@ -107,6 +110,7 @@ public class ProfilesRepositoryTest {
         User user = User.builder()
                 .id(4L)
                 .firstName("David")
+                .password("1234")
                 .lastName("Williams")
                 .email("david.williams@test.com")
                 .build();
@@ -134,6 +138,7 @@ public class ProfilesRepositoryTest {
                 .id(5L)
                 .firstName("Eve")
                 .lastName("Taylor")
+                .password("1234")
                 .email("eve.taylor@test.com")
                 .build();
         userRepository.save(user);

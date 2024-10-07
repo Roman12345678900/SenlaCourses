@@ -37,6 +37,7 @@ public class CardInfoRepositoryTest {
                 .id(1L)
                 .firstName("John")
                 .lastName("Doe")
+                .password("1234")
                 .email("john.doe@test.com")
                 .build();
         userRepository.save(user);
@@ -63,6 +64,7 @@ public class CardInfoRepositoryTest {
                 .firstName("Alice")
                 .lastName("Smith")
                 .email("alice.smith@test.com")
+                .password("1234")
                 .build();
 
         userRepository.save(user1);
@@ -70,6 +72,7 @@ public class CardInfoRepositoryTest {
         User user2 = User.builder()
                 .id(3L)
                 .firstName("Bob")
+                .password("1234")
                 .lastName("Johnson")
                 .email("bob.johnson@test.com")
                 .build();
@@ -106,6 +109,7 @@ public class CardInfoRepositoryTest {
         User user = User.builder()
                 .id(4L)
                 .firstName("Carol")
+                .password("1234")
                 .lastName("Williams")
                 .email("carol.williams@test.com")
                 .build();
@@ -133,6 +137,7 @@ public class CardInfoRepositoryTest {
         User user = User.builder()
                 .id(6L)
                 .firstName("Emma")
+                .password("1234")
                 .lastName("Jones")
                 .email("emma.jones@test.com")
                 .build();
