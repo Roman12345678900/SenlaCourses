@@ -42,6 +42,7 @@ public class ReviewsRepositoryTest {
         User user = User.builder()
                 .id(1L)
                 .firstName("John")
+                .password("1234")
                 .lastName("Doe")
                 .email("john.doe@test.com")
                 .build();
@@ -78,6 +79,7 @@ public class ReviewsRepositoryTest {
     public void TestFindAll() {
         User user1 = User.builder()
                 .id(2L)
+                .password("1234")
                 .firstName("Jane")
                 .lastName("Doe")
                 .email("jane.doe@test.com")
@@ -89,6 +91,7 @@ public class ReviewsRepositoryTest {
                 .id(3L)
                 .firstName("John")
                 .lastName("Smith")
+                .password("1234")
                 .email("john.smith@test.com")
                 .build();
 
@@ -145,6 +148,7 @@ public class ReviewsRepositoryTest {
                 .id(3L)
                 .firstName("Alice")
                 .lastName("Smith")
+                .password("1234")
                 .email("alice.smith@test.com")
                 .build();
 
@@ -182,6 +186,7 @@ public class ReviewsRepositoryTest {
                 .firstName("Bob")
                 .lastName("Johnson")
                 .email("bob.johnson@test.com")
+                .password("1234")
                 .build();
 
         userRepository.save(user);

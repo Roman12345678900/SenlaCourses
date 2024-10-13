@@ -44,6 +44,7 @@ public class SchedulesRepositoryTest {
                 .firstName("Test")
                 .lastName("Senla")
                 .email("test@test.com")
+                .password("1234")
                 .build();
 
         userRepository.save(user);
@@ -80,6 +81,7 @@ public class SchedulesRepositoryTest {
                 .id(1L)
                 .firstName("Test")
                 .lastName("Senla")
+                .password("1234")
                 .email("test@test.com")
                 .build();
 
@@ -124,6 +126,7 @@ public class SchedulesRepositoryTest {
     public void TestSave() {
         User user = User.builder()
                 .id(1L)
+                .password("1234")
                 .firstName("Test")
                 .lastName("Senla")
                 .email("test@test.com")
@@ -164,6 +167,7 @@ public class SchedulesRepositoryTest {
                 .firstName("Test")
                 .lastName("Senla")
                 .email("test@test.com")
+                .password("1234")
                 .build();
 
         userRepository.save(user);

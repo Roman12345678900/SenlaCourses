@@ -101,4 +101,19 @@
         <sqlFile encoding="utf8" path="sql/23.create-idx-trainer_schedules.sql" relativeToChangelogFile="true"/>
     </changeSet>
 
+    <changeSet id="add-column-password" author="Roman">
+        <sqlFile encoding="utf8" path="sql/24.add-password-column.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="add-roles" author="Roman">
+        <sqlFile encoding="utf8" path="sql/25.add-roles-elements.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="new-user" author="Roman">
+        <sqlFile encoding="utf8" path="sql/26.new-user.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="add-users" author="Roman">
+        <sqlFile encoding="utf8" path="sql/27.add-users.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog> 

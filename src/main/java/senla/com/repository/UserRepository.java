@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface UserRepository extends GenericRepository<User, Long> {
 
-    Optional<User> findByEmail(String username);
+    User findByEmail(String username);
 
     List<User> findByNameWithApi(String name);
 

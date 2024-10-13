@@ -58,7 +58,7 @@ public class RoleRepositoryTest {
 
         List<Role> roles = roleRepository.findAll();
 
-        assertEquals(2, roles.size());
+        assertEquals(3, roles.size());
     }
 
     @Test

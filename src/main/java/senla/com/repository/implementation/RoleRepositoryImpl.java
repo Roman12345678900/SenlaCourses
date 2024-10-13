@@ -20,17 +20,6 @@ public class RoleRepositoryImpl extends AbstractRepository<Role, Long> implement
         return Role.class;
     }
 
-    @Override
-    public List<Role> findByNameWithFetchCriteria(String name) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Role> query = criteriaBuilder.createQuery(Role.class);
-        Root<Role> root = query.from(Role.class);
-
-        query.select(root).where(criteriaBuilder.equal(root.get(Role_.name), name));
-
-        return entityManager.createQuery(query).getResultList();
-    }
-
 
     @Override
     public List<Role> findAllWithFetchJPQL() {
@@ -46,5 +35,16 @@ public class RoleRepositoryImpl extends AbstractRepository<Role, Long> implement
         return entityManager.createQuery("select r from Role r", Role.class)
                 .setHint("javax.persistence.fetchgraph", entityGraph)
                 .getResultList();
+    }
+
+    @Override
+    public Role findByName(String name){
+        final String query = "select r from Role r where r.name = :name";
+
+        return entityManager.createQuery(query, Role.class)
+                .setParameter("name", name)
+                .getResultList()
+                .iterator()
+                .next();
     }
 }

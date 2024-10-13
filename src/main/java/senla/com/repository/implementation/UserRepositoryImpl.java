@@ -1,7 +1,6 @@
 package senla.com.repository.implementation;
 
 import jakarta.persistence.EntityGraph;
-import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -13,7 +12,6 @@ import senla.com.repository.AbstractRepository;
 import senla.com.repository.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Repository
@@ -25,17 +23,14 @@ public class UserRepositoryImpl extends AbstractRepository<User, Long> implement
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
-        String jpql = "select u from User u where u.email = :email";
+    public User findByEmail(String email) {
+        String jpql = "SELECT u FROM User u LEFT JOIN FETCH u.roles WHERE u.email = :email";
         TypedQuery<User> query = entityManager.createQuery(jpql, User.class);
         query.setParameter("email", email);
-        try {
-            User user = query.getSingleResult();
-            return Optional.of(user);
-        }catch (NoResultException e) {
-            return Optional.empty();
-        }
+
+        return query.getSingleResult();
     }
+
 
     @Override
     public List<User> findByNameWithApi(String name) {

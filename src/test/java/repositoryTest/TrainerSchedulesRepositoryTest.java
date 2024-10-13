@@ -38,6 +38,7 @@ public class TrainerSchedulesRepositoryTest {
                 .id(1L)
                 .firstName("Test")
                 .lastName("Senla")
+                .password("1234")
                 .email("test@test.com")
                 .build();
         userRepository.save(user);
@@ -63,6 +64,7 @@ public class TrainerSchedulesRepositoryTest {
                 .id(2L)
                 .firstName("Test")
                 .lastName("Senla")
+                .password("1234")
                 .email("test2@test.com")
                 .build();
         userRepository.save(user);
@@ -95,6 +97,7 @@ public class TrainerSchedulesRepositoryTest {
                 .id(4L)
                 .firstName("Test")
                 .lastName("Senla")
+                .password("1234")
                 .email("test4@test.com")
                 .build();
         userRepository.save(user);
@@ -121,6 +124,7 @@ public class TrainerSchedulesRepositoryTest {
                 .firstName("Test")
                 .lastName("Senla")
                 .email("test5@test.com")
+                .password("1234")
                 .build();
         userRepository.save(user);
 
